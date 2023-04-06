@@ -68,39 +68,27 @@ public class Player extends AbstractEntity implements Movable {
         accelerateDirection = d;
     }
 
-    // public void accelerate() {
-    //     if (velocity < MAX_VELOCITY && accelerateDirection == Direction.FORWARD) 
-    //     {
-    //         velocity += ACCELERATION;
-    //     }
-    //     else if (velocity > -MAX_VELOCITY && accelerateDirection == Direction.BACKWARD) 
-    //     {
-    //         velocity -= ACCELERATION;
-    //     }
-    //     else if (accelerateDirection == Direction.DEFAULT) {
-    //         if (velocity > 0) velocity -= 0.5*ACCELERATION;
-    //         else if (velocity < 0) velocity += 0.5*ACCELERATION;
-    //         else velocity = 0;
-    //     }
-    //     // System.out.println(velocity);
-    // }
     public void accelerate() {
+        double targetVelocityX = MAX_VELOCITY*Math.cos(theta);
+        double targetVelocityY = MAX_VELOCITY*Math.sin(theta);
         if (accelerateDirection == Direction.FORWARD) 
         {
+            
             // double velocity = Math.sqrt(velocityX*velocityX + velocityY*velocityY);
-            velocityX += ACCELERATION*Math.cos(theta);
-            velocityY += ACCELERATION*Math.sin(theta);
+            velocityX += (targetVelocityX - velocityX) * 0.015;
+            velocityY += (targetVelocityY - velocityY) * 0.015;
         }
         else if (accelerateDirection == Direction.BACKWARD) 
         {
-            velocityX -= ACCELERATION*Math.cos(theta);
-            velocityY -= ACCELERATION*Math.sin(theta);
+            // double -elocity = Math.sqrt(velocityX*velocityX + velocityY*velocityY);
+            velocityX -= (targetVelocityX - velocityX) * 0.015;
+            velocityY -= (targetVelocityY - velocityY) * 0.015;
         }
         else if (accelerateDirection == Direction.DEFAULT) {
             // if (velocity > 0) {
                 // velocity -= 0.5*ACCELERATION;
-                velocityX /= 1.03;
-                velocityY /= 1.03;
+                velocityX /= 1.015;
+                velocityY /= 1.015;
             // }
             // else if (velocity < 0) {
             //     // velocity += 0.5*ACCELERATION;
