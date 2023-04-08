@@ -1,6 +1,6 @@
 package main;
-public class App {
+public class AsteroidShooter {
     public static void main(String[] args) throws Exception {
-        new GameLauncher();
+        new GameWindow("Asteroid Shooter Game");
     }
 }

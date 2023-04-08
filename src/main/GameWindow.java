@@ -1,15 +1,23 @@
 package main;
 
 import javax.swing.JFrame;
-import controller.AbstractController;
-// import controller.MouseKeyController;
-import controller.KeyController;
-
+import java.awt.BorderLayout;
 
 public class GameWindow extends JFrame {
-    GameWindow() {
+    private static GamePanel gamePanel = new GamePanel();
+    private static InfoPanel infoPanel = new InfoPanel();
+    GameWindow(String title) {
+        super(title);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800,600);
+
+        // GameWindow gw = new GameWindow("Asteroid Shooter Game");
+        
+
+        add(gamePanel);
+        add(infoPanel, BorderLayout.EAST);
+        pack();
+        new Game(gamePanel, infoPanel);
+        gamePanel.requestFocusInWindow();
     }
 }

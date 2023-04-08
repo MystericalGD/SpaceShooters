@@ -1,13 +1,17 @@
 package controller;
 import javax.swing.event.MouseInputListener;
 import java.awt.event.KeyListener;
-import main.Game;
+import java.awt.event.MouseEvent;
 
 public abstract class AbstractController implements KeyListener, MouseInputListener {
-    Game game;
-    AbstractController(Game game) {
-        this.game = game;
+
+    AbstractController() {}
+    public boolean isFocused = false;
+    
+    public void mouseExited(MouseEvent e) {
+        isFocused = false;
     }
-    // abstract void rotate();
-    // void 
+    public void mouseEntered(MouseEvent e) {
+        isFocused = true;
+    }
 }

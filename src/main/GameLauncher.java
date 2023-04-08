@@ -1,12 +1,13 @@
 package main;
 
+import java.awt.BorderLayout;
+
 public class GameLauncher {
     public GameLauncher() {
-        GameWindow gw = new GameWindow();
-        GamePanel gamePanel = new GamePanel();
-        gw.add(gamePanel);
+        // Game.setFPS(60);
+        // Game.setUPS(120);
 
-        new Game(gamePanel);
+
 
     }
 }

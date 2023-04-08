@@ -2,66 +2,100 @@ package entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
-public class Player extends AbstractEntity implements Movable {
+import javax.management.AttributeChangeNotificationFilter;
 
-    private float velocityX = 0;
-    private float velocityY = 0;
+import main.Game;
+public class Player extends EntityObject implements Movable {
+    private final double RELOAD_TIME = 0.25;
+    private long MAX_RELOAD_STATUS;
+    private long reload_status;
+    public boolean allow_shoot = true;
+    public boolean isBoosted = false;
+    private double velocityX = 0;
+    private double velocityY = 0;
+    private double thetaTrue = 0;
     private double theta = 0;
     private double thetaUpdate = 0;
+    private double HP = 0;
+    private boolean triggerShoot = false;
     private Direction accelerateDirection = Direction.DEFAULT;
-
-    
     private final double ACCELERATION;
-    private final int MAX_VELOCITY;
+    private int MAX_VELOCITY;
+    private Color fireColor = Color.GRAY;
+    private Color playerColorPrimary = Color.BLACK;
+    private Color playerColorSecondary = Color.GRAY;
 
     public Player() {
-        this(5,0.5);
+        this(400,300);
     }
-    public Player(int MAX_VELOCITY, double ACCELERATION) {
+    public Player(int x, int y) {
+        this(x,y, 150,1);
+    }
+    public Player(int x, int y, int MAX_VELOCITY, double ACCELERATION) {
+        super(x,y);
         this.MAX_VELOCITY = MAX_VELOCITY;
         this.ACCELERATION = ACCELERATION;
+        MAX_RELOAD_STATUS = Math.round(RELOAD_TIME*Game.getUPS());
+        System.out.println(Game.getUPS());
+        // System.out.println(MAX_RELOAD_STATUS + " " + Math.round(RELOAD_TIME*Game.getUPS()));
+        reload_status = MAX_RELOAD_STATUS;
     }
 
+    public enum Direction {
+        FORWARD,
+        BACKWARD,
+        DEFAULT
+    }
+    
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
-        g2d.setColor(Color.black);
-        g2d.translate(posX,posY);
+        AffineTransform old = g2d.getTransform();
+        
+        g2d.translate(x,y);
         g2d.rotate(theta);
-        int[] playerShapeX = setOffset(new int[] {0,20,30,20,0},10);
-        int[] playerShapeY = setOffset(new int[] {0,0,10,20,20},10);
-
+        int[] playerShapeX = new int[] {-10,10,20,10,-10};
+        int[] playerShapeY = new int[] {-10,-10,0,10,10};
+        
+        g2d.setColor(playerColorPrimary);
         g2d.fillPolygon(playerShapeX, playerShapeY, playerShapeX.length);
-        // g2d.fillRect(-10, -10, 20, 20);
+        g2d.setColor(playerColorSecondary);
+        g2d.fillOval(2,-5,10,10);
 
-    }
-    private int[] setOffset(int[] shape, int offset) {
-        for (int i=0; i<shape.length;i++) {
-            shape[i] -= offset;
+
+        if (accelerateDirection == Direction.FORWARD) {
+            g2d.setColor(fireColor);
+            g2d.fillPolygon(
+                new int[]{-10, -15, -13, -17, -13, -15, -10}, 
+                new int[]{10, 10, 5, 0, -5, -10, -10}, 7
+            );
         }
-        return shape;
+        g2d.setTransform(old);
     }
+
     public void update() {
         updateTheta();
         updatePos();
+        updateShoot();
     }
 
     public void updatePos() {
         accelerate();
-        // posX += Math.cos(theta) * velocity;
-        // posY += Math.sin(theta) * velocity;
-        posX += velocityX;
-        posY += velocityY;
-        // System.out.println(posX + " " +  posY);
-        // posX += Math.cos(velocity);
+        isHitBorder(Game.getBorder());
+        x += (velocityX / Game.getUPS());
+        y += (velocityY / Game.getUPS());
     }
+
     public void updateTheta() {
-        theta += thetaUpdate;
-        theta %= (2*Math.PI);
+        thetaTrue += thetaUpdate;
+        thetaTrue %= (2*Math.PI);
+        if (thetaTrue < 0) thetaTrue += (2*Math.PI);
+        theta = Math.toRadians(Math.round(Math.toDegrees(thetaTrue)/5) * 5);
         // System.out.println(theta);
     }
-    public void setThetaUpdate(int degree) {
-        thetaUpdate = Math.toRadians(degree);
+    public void setThetaUpdate(double degree) {
+        thetaUpdate += Math.toRadians(degree);
     }
 
     public void setAccelerateDirection(Direction d) {
@@ -73,45 +107,60 @@ public class Player extends AbstractEntity implements Movable {
         double targetVelocityY = MAX_VELOCITY*Math.sin(theta);
         if (accelerateDirection == Direction.FORWARD) 
         {
-            
-            // double velocity = Math.sqrt(velocityX*velocityX + velocityY*velocityY);
-            velocityX += (targetVelocityX - velocityX) * 0.015;
-            velocityY += (targetVelocityY - velocityY) * 0.015;
+            velocityX += (targetVelocityX - velocityX) * ACCELERATION / Game.getUPS();
+            velocityY += (targetVelocityY - velocityY) * ACCELERATION / Game.getUPS();
         }
         else if (accelerateDirection == Direction.BACKWARD) 
         {
-            // double -elocity = Math.sqrt(velocityX*velocityX + velocityY*velocityY);
-            velocityX -= (targetVelocityX - velocityX) * 0.015;
-            velocityY -= (targetVelocityY - velocityY) * 0.015;
+            velocityX += (-targetVelocityX - velocityX) * ACCELERATION / Game.getUPS();
+            velocityY += (-targetVelocityY - velocityY) * ACCELERATION / Game.getUPS();
         }
         else if (accelerateDirection == Direction.DEFAULT) {
-            // if (velocity > 0) {
-                // velocity -= 0.5*ACCELERATION;
-                velocityX /= 1.015;
-                velocityY /= 1.015;
-            // }
-            // else if (velocity < 0) {
-            //     // velocity += 0.5*ACCELERATION;
-            //     velocityX += 0.5*velocityX;
-            //     velocityY += 0.5*velocityY;
-            // }
-            // else velocity = 0;
+            velocityX += (0 - velocityX) * ACCELERATION / (Game.getUPS() * 1.3);
+            velocityY += (0 - velocityY) * ACCELERATION / (Game.getUPS() * 1.3);
         }
-        System.out.println(velocityX + " " + velocityY);
+        // System.out.println(velocityX + " " + velocityY);
     }
 
-    public void updateRotation(float theta) {
-        this.theta = theta;
+    public void setTriggerShoot(Boolean bool) {
+        triggerShoot = bool;
+    }
+    public void updateShoot() { 
+        if (triggerShoot && allow_shoot && Bullet.BulletsList.size() < Bullet.MAX_BULLETS) {
+            reload_status = 0;
+            allow_shoot = false;
+            Bullet.BulletsList.add(new Bullet(x, y, theta));
+        }
+        if (reload_status < MAX_RELOAD_STATUS) {
+            reload_status++;
+        } else allow_shoot = true;
     }
 
-    public double round(double number, int dec) {
-        double multiplier = Math.pow(10,dec);
-        System.out.println(Math.round(number*multiplier)/((double)multiplier));
-        return Math.round(number*multiplier)/multiplier;
+    public void isHitBorder(Border border) {
+        if (x+velocityX/Game.getUPS() <= border.x + 10|| x+velocityX/Game.getUPS() >= border.x + border.w - 10) {
+            velocityX *= -0.6;
+        }
+        else if (y+velocityY/Game.getUPS() <= border.y + 10|| y+velocityY/Game.getUPS() >= border.y + border.h - 10) {
+            velocityY *= -0.6;
+        }
+        // else System.out.println("No hit");
     }
 
-    public void isCollided(Object o) {
+    public String getInfo() {
+        String directionStr = (accelerateDirection == Direction.FORWARD) ? "Forward" : 
+                              (accelerateDirection == Direction.BACKWARD) ? "Backward" : 
+                              "Default";
+        String info = "Direction: " + directionStr + '\n' + 
+                      String.format("Theta (degrees): %d\n",Math.round(Math.toDegrees(theta))) +
+                      String.format("Position (x,y): (%.2f, %.2f)\n", x, y) +
+                      String.format("Velocity (x,y): (%.2f, %.2f)", velocityX, velocityY);
+        return info;
+    }
 
+    public void boostSpeed(boolean bool) {
+        isBoosted = bool;
+        if (bool) MAX_VELOCITY *=3;
+        else MAX_VELOCITY /=3;
     }
 
 }
