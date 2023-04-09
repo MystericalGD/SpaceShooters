@@ -26,8 +26,14 @@ public class Asteroid extends GameObject implements Movable {
     private int radius;
     private int point;
     private Random random = new Random();
-    public Asteroid() {
 
+
+    // public Asteroid() {
+    //     this();
+    //     this.game=game;
+    // }
+    public Asteroid(Game game) {
+        super(game);
         size = SIZES[random.nextInt(2)];
         switch (size) {
             case "small":
@@ -39,12 +45,9 @@ public class Asteroid extends GameObject implements Movable {
             radius=20;
             HP = 20;
             point = 20;
-            // radius=20;
-            // HP = 20;
         }
-
         rotation = random.nextDouble(Math.PI);
-        rotationSpeed = random.nextDouble(MIN_ANGULAR_SPEED/Game.getFPS(),MAX_ANGULAR_SPEED/Game.getFPS());
+        rotationSpeed = random.nextDouble(MIN_ANGULAR_SPEED/Game.getUPS(),MAX_ANGULAR_SPEED/Game.getUPS());
         int startSide = random.nextInt(4);
         int endSide = random.nextInt(4);
         velocity = random.nextInt(MIN_VELOCITY, MAX_VELOCITY);
@@ -65,20 +68,20 @@ public class Asteroid extends GameObject implements Movable {
         Point p = new Point();
         switch (side) {
             case 0: // up
-                p.x = random.nextInt(0,(int)Game.getGamePanelSize().getWidth());
+                p.x = random.nextInt(0,(int)game.getGamePanelSize().getWidth());
                 p.y = 0;
                 break;
             case 1: // left
                 p.x = 0;
-                p.y = random.nextInt(0,(int)Game.getGamePanelSize().getHeight());
+                p.y = random.nextInt(0,(int)game.getGamePanelSize().getHeight());
                 break;
             case 2: // down
-                p.x = random.nextInt(0,(int)Game.getGamePanelSize().getWidth());
-                p.y = (int)Game.getGamePanelSize().getHeight();
+                p.x = random.nextInt(0,(int)game.getGamePanelSize().getWidth());
+                p.y = (int)game.getGamePanelSize().getHeight();
                 break;
             case 3: // right
-                p.x = (int)Game.getGamePanelSize().getWidth();
-                p.y = random.nextInt(0,(int)Game.getGamePanelSize().getHeight());
+                p.x = (int)game.getGamePanelSize().getWidth();
+                p.y = random.nextInt(0,(int)game.getGamePanelSize().getHeight());
                 break;
             default:
                 // System.out.println("DEFAULT CASE");

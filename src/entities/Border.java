@@ -34,7 +34,6 @@ public class Border {
         return new Border((int)((d.getWidth()-w)/2), (int)((d.getHeight()-h)/2), w,h);
     }
 
-
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         g2d.setColor(Color.white);

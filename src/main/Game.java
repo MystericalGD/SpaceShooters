@@ -19,24 +19,24 @@ import java.util.Iterator;
 import java.util.ConcurrentModificationException;
 public class Game {
     public AbstractController controller;
-    public static boolean ALLOW_SHOOT = true;
+    public boolean ALLOW_SHOOT = true;
     
-    private static Player player;
-    private static int score = 0;
-    private static int MAX_TOTAL_ASTEROIDS = 30;
-    private static double regenAsteroidTime = 0.2; //seconds
-    private static int regenAsteroidStatus; //seconds
+    private Player player;
+    private int score = 0;
+    private int MAX_TOTAL_ASTEROIDS = 30;
+    private double regenAsteroidTime = 0.2; //seconds
+    private int regenAsteroidStatus; //seconds
     // private static boolean allowRegenAsteroid = true; //seconds
 
     
-    private static GamePanel gamePanel;
-    private static InfoPanel infoPanel;
+    private GamePanel gamePanel;
+    private InfoPanel infoPanel;
     private static int UPS = 60;
-    private static int FPS = 30;
-    private static Border border;
-    public static ArrayList<Bullet> BulletsList = new ArrayList<Bullet>() ;
-    public static ArrayList<Point> DeadBulletsList = new ArrayList<Point>() ;
-    public static ArrayList<Asteroid> AsteroidsList = new ArrayList<Asteroid>() ;
+    private int FPS = 30;
+    private Border border;
+    public ArrayList<Bullet> BulletsList = new ArrayList<Bullet>() ;
+    public ArrayList<Point> DeadBulletsList = new ArrayList<Point>() ;
+    public ArrayList<Asteroid> AsteroidsList = new ArrayList<Asteroid>() ;
 
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     Thread FPSThread;
@@ -44,10 +44,10 @@ public class Game {
 
     Game(GamePanel gamePanel, InfoPanel infoPanel) {
 
-        Game.gamePanel = gamePanel;
-        Game.infoPanel = infoPanel;
+        this.gamePanel = gamePanel;
+        this.infoPanel = infoPanel;
         border = Border.fromCenter(gamePanel.getSize(), 700,500);
-        player = new Player();
+        player = new Player(this);
         regenAsteroidStatus = (int)(regenAsteroidTime * UPS);
         FPSThread = new Thread(() -> (new Timer())
             .scheduleAtFixedRate(new TimerTask() {
@@ -63,6 +63,7 @@ public class Game {
             }
         }, 0, 1000/UPS));
         controller = new KeyController(1);
+        controller.registerGame(this);
         gamePanel.addMouseMotionListener(controller);
         gamePanel.addMouseListener(controller);
         gamePanel.addKeyListener(controller);
@@ -89,11 +90,11 @@ public class Game {
         toolkit.sync();
     }
 
-    public static Player getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
-    public static Border getBorder() {
+    public Border getBorder() {
         return border;
     }
 
@@ -101,33 +102,30 @@ public class Game {
         return UPS;
     }
 
-    public static int getFPS() {
+    public int getFPS() {
         return FPS;
     }
     public static void setUPS(int value) {
         UPS = value;
     }
-    public static void setFPS(int value) {
+    public void setFPS(int value) {
         FPS = value;
     }
-    public static void checkCollision() {
 
-    }
-    public static Dimension getGamePanelSize() {
+    public Dimension getGamePanelSize() {
         return gamePanel.getSize();
     }
 
-    private static void updateBullets() {
+    private void updateBullets() {
         for (Iterator<Bullet> iterator = BulletsList.iterator(); iterator.hasNext(); ) {
             Bullet bullet = iterator.next();
             bullet.update();
-            // boolean isHit = bullet.checkHit(AsteroidsList);
             if (bullet.outsideBorder()) {
                 iterator.remove();
             }
         }
     }
-    private static void renderBullets(Graphics g) {
+    private void renderBullets(Graphics g) {
         try {
             for (Iterator<Bullet> iterator = BulletsList.iterator(); iterator.hasNext(); ) {
                 iterator.next().render(g);
@@ -136,10 +134,10 @@ public class Game {
         catch (ConcurrentModificationException e) {} 
     }
 
-    private static void updateAsteroids() {
+    private void updateAsteroids() {
         // System.out.println(MAX_TOTAL_ASTEROIDS + " " + AsteroidsList.size() + " " + regenAsteroidStatus + " " + regenAsteroidTime);
         if (AsteroidsList.size() < MAX_TOTAL_ASTEROIDS && (regenAsteroidStatus == regenAsteroidTime * UPS)) {
-            AsteroidsList.add(new Asteroid());
+            AsteroidsList.add(new Asteroid(this));
             regenAsteroidStatus = 0;
         }
         else if (regenAsteroidStatus < regenAsteroidTime * UPS) {
@@ -159,7 +157,7 @@ public class Game {
         }
         // System.out.println(AsteroidsList.size());
     }
-    private static void renderAsteroids(Graphics g) {
+    private void renderAsteroids(Graphics g) {
         try {
             for (Iterator<Asteroid> iterator = AsteroidsList.iterator(); iterator.hasNext(); ) {
                 iterator.next().render(g);
@@ -169,7 +167,7 @@ public class Game {
             // System.out.println("ERROR");
         } 
     }
-    private static void checkCollision(Asteroid asteroid) {
+    private void checkCollision(Asteroid asteroid) {
         for (Iterator<Bullet> iterator = BulletsList.iterator(); iterator.hasNext(); ) {
             Bullet bullet = iterator.next();
             if (MathUtils.getDistance(bullet, asteroid) < asteroid.getRadius()) {
@@ -181,7 +179,6 @@ public class Game {
             // asteroid.deductHP(player);
             player.deductHP(asteroid);
         }
-
     }
 
 }

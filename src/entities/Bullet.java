@@ -14,6 +14,10 @@ public class Bullet extends GameObject {
     private Color bulletColor = Color.BLACK;
     public static final double MAX_VELOCITY = 1000;
     public static final int MAX_BULLETS = 20;
+    Bullet(double x, double y, double theta, Game game) {
+        this(x,y,theta);
+        this.game=game;
+    }
     Bullet(double x, double y, double theta) {
         this.x = x;
         this.y = y;
@@ -34,7 +38,7 @@ public class Bullet extends GameObject {
     }
 
     public boolean outsideBorder() {
-        Border border = Game.getBorder();
+        Border border = game.getBorder();
         return (x < border.x || x > border.x + border.w ||
                 y < border.y || y > border.y + border.h);
     }

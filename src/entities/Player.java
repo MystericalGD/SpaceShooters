@@ -3,8 +3,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-
 import main.Game;
+
 public class Player extends GameObject implements Movable {
     private final double RELOAD_TIME = 0.25;
     private long MAX_RELOAD_STATUS;
@@ -28,6 +28,11 @@ public class Player extends GameObject implements Movable {
     public Player() {
         this(400,300);
     }
+    public Player(Game game) {
+        this((int)game.getGamePanelSize().getWidth()/2, 
+             (int)game.getGamePanelSize().getHeight()/2);
+        this.game = game;
+    }
     public Player(int x, int y) {
         this(x,y, 150,1);
     }
@@ -36,8 +41,6 @@ public class Player extends GameObject implements Movable {
         this.MAX_VELOCITY = MAX_VELOCITY;
         this.ACCELERATION = ACCELERATION;
         MAX_RELOAD_STATUS = Math.round(RELOAD_TIME*Game.getUPS());
-        System.out.println(Game.getUPS());
-        // System.out.println(MAX_RELOAD_STATUS + " " + Math.round(RELOAD_TIME*Game.getUPS()));
         reload_status = MAX_RELOAD_STATUS;
     }
 
@@ -80,7 +83,7 @@ public class Player extends GameObject implements Movable {
 
     public void updatePos() {
         accelerate();
-        isHitBorder(Game.getBorder());
+        isHitBorder(game.getBorder());
         x += (velocityX / Game.getUPS());
         y += (velocityY / Game.getUPS());
     }
@@ -124,10 +127,10 @@ public class Player extends GameObject implements Movable {
         triggerShoot = bool;
     }
     public void updateShoot() { 
-        if (triggerShoot && allow_shoot && Game.BulletsList.size() < Bullet.MAX_BULLETS) {
+        if (triggerShoot && allow_shoot && game.BulletsList.size() < Bullet.MAX_BULLETS) {
             reload_status = 0;
             allow_shoot = false;
-            Game.BulletsList.add(new Bullet(x, y, theta));
+            game.BulletsList.add(new Bullet(x, y, theta, game));
         }
         if (reload_status < MAX_RELOAD_STATUS) {
             reload_status++;
