@@ -4,10 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import javax.management.AttributeChangeNotificationFilter;
-
 import main.Game;
-public class Player extends EntityObject implements Movable {
+public class Player extends GameObject implements Movable {
     private final double RELOAD_TIME = 0.25;
     private long MAX_RELOAD_STATUS;
     private long reload_status;
@@ -18,7 +16,7 @@ public class Player extends EntityObject implements Movable {
     private double thetaTrue = 0;
     private double theta = 0;
     private double thetaUpdate = 0;
-    private double HP = 0;
+    private double HP = 100;
     private boolean triggerShoot = false;
     private Direction accelerateDirection = Direction.DEFAULT;
     private final double ACCELERATION;
@@ -126,10 +124,10 @@ public class Player extends EntityObject implements Movable {
         triggerShoot = bool;
     }
     public void updateShoot() { 
-        if (triggerShoot && allow_shoot && Bullet.BulletsList.size() < Bullet.MAX_BULLETS) {
+        if (triggerShoot && allow_shoot && Game.BulletsList.size() < Bullet.MAX_BULLETS) {
             reload_status = 0;
             allow_shoot = false;
-            Bullet.BulletsList.add(new Bullet(x, y, theta));
+            Game.BulletsList.add(new Bullet(x, y, theta));
         }
         if (reload_status < MAX_RELOAD_STATUS) {
             reload_status++;
@@ -161,6 +159,15 @@ public class Player extends EntityObject implements Movable {
         isBoosted = bool;
         if (bool) MAX_VELOCITY *=3;
         else MAX_VELOCITY /=3;
+    }
+
+    public void deductHP(GameObject o) {
+        if (o instanceof Asteroid) {
+            HP--;
+        }
+        // else if (o instanceof Bullet) {
+        //     HP-=3;
+        // }
     }
 
 }

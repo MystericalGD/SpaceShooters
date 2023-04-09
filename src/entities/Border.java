@@ -21,7 +21,7 @@ public class Border {
         this.y = y;
         this.w = w;
         this.h = h;
-        System.out.println(x + " " + y + " " + w + " " + h);
+        // System.out.println(x + " " + y + " " + w + " " + h);
     }
     public Border(Point upperLeft, int w, int h) {
         this(upperLeft.x, upperLeft.y, w, h);

@@ -1,7 +1,6 @@
 package controller;
 import java.awt.event.*;
 
-import entities.Bullet;
 import entities.Player;
 import main.Game;
 
@@ -42,7 +41,7 @@ public class KeyController extends AbstractController {
             if (e.getKeyCode() == upBT) {
                 Game.getPlayer().setAccelerateDirection(Player.Direction.FORWARD);
             }
-            if (e.getKeyCode() == downBT) {
+            if (e.getKeyCode() == downBT && !Game.getPlayer().isBoosted) {
                 Game.getPlayer().setAccelerateDirection(Player.Direction.BACKWARD);
             }
             if (e.getKeyCode() == leftBT && leftBTOnce) {

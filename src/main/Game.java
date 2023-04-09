@@ -1,34 +1,54 @@
 package main;
-import java.awt.*;
+import entities.Point;
+import utils.MathUtils;
+
 import java.util.Timer;
 import java.util.TimerTask;
-
+import java.awt.Graphics;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import controller.AbstractController;
 // import controller.MouseKeyController;
 import controller.KeyController;
 import entities.Player;
+import entities.Asteroid;
 import entities.Border;
 import entities.Bullet;
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ConcurrentModificationException;
 public class Game {
-    private GamePanel gamePanel;
-    private InfoPanel infoPanel;
     public AbstractController controller;
-    private static int UPS = 120;
-    private static int FPS = 60;
     public static boolean ALLOW_SHOOT = true;
-    private static Player player = new Player();
+    
+    private static Player player;
+    private static int score = 0;
+    private static int MAX_TOTAL_ASTEROIDS = 30;
+    private static double regenAsteroidTime = 0.2; //seconds
+    private static int regenAsteroidStatus; //seconds
+    // private static boolean allowRegenAsteroid = true; //seconds
+
+    
+    private static GamePanel gamePanel;
+    private static InfoPanel infoPanel;
+    private static int UPS = 60;
+    private static int FPS = 30;
     private static Border border;
+    public static ArrayList<Bullet> BulletsList = new ArrayList<Bullet>() ;
+    public static ArrayList<Point> DeadBulletsList = new ArrayList<Point>() ;
+    public static ArrayList<Asteroid> AsteroidsList = new ArrayList<Asteroid>() ;
+
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     Thread FPSThread;
     Thread UPSThread;
 
     Game(GamePanel gamePanel, InfoPanel infoPanel) {
 
-        this.gamePanel = gamePanel;
-        this.infoPanel = infoPanel;
+        Game.gamePanel = gamePanel;
+        Game.infoPanel = infoPanel;
         border = Border.fromCenter(gamePanel.getSize(), 700,500);
-
+        player = new Player();
+        regenAsteroidStatus = (int)(regenAsteroidTime * UPS);
         FPSThread = new Thread(() -> (new Timer())
             .scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -54,14 +74,16 @@ public class Game {
 
     public void update() {
         player.update();
-        Bullet.updateBullets();
+        updateBullets();
+        updateAsteroids();
         infoPanel.addText(player.getInfo());
     }
 
     public void render() {
         Graphics g = gamePanel.getGraphics();
         gamePanel.resetGraphics(g);
-        Bullet.renderBullets(g);
+        renderBullets(g);
+        renderAsteroids(g);
         player.render(g);
         border.render(g);
         toolkit.sync();
@@ -87,6 +109,79 @@ public class Game {
     }
     public static void setFPS(int value) {
         FPS = value;
+    }
+    public static void checkCollision() {
+
+    }
+    public static Dimension getGamePanelSize() {
+        return gamePanel.getSize();
+    }
+
+    private static void updateBullets() {
+        for (Iterator<Bullet> iterator = BulletsList.iterator(); iterator.hasNext(); ) {
+            Bullet bullet = iterator.next();
+            bullet.update();
+            // boolean isHit = bullet.checkHit(AsteroidsList);
+            if (bullet.outsideBorder()) {
+                iterator.remove();
+            }
+        }
+    }
+    private static void renderBullets(Graphics g) {
+        try {
+            for (Iterator<Bullet> iterator = BulletsList.iterator(); iterator.hasNext(); ) {
+                iterator.next().render(g);
+            }
+        } 
+        catch (ConcurrentModificationException e) {} 
+    }
+
+    private static void updateAsteroids() {
+        // System.out.println(MAX_TOTAL_ASTEROIDS + " " + AsteroidsList.size() + " " + regenAsteroidStatus + " " + regenAsteroidTime);
+        if (AsteroidsList.size() < MAX_TOTAL_ASTEROIDS && (regenAsteroidStatus == regenAsteroidTime * UPS)) {
+            AsteroidsList.add(new Asteroid());
+            regenAsteroidStatus = 0;
+        }
+        else if (regenAsteroidStatus < regenAsteroidTime * UPS) {
+            regenAsteroidStatus++;
+        }
+        for (Iterator<Asteroid> iterator = AsteroidsList.iterator(); iterator.hasNext(); ) {
+            Asteroid asteroid = iterator.next();
+            asteroid.update();
+            checkCollision(asteroid);
+            if (asteroid.isDead()) {
+                iterator.remove();
+            }
+            else if (asteroid.isDestroyed()) {
+                score += asteroid.getPoint();
+                iterator.remove();
+            }
+        }
+        // System.out.println(AsteroidsList.size());
+    }
+    private static void renderAsteroids(Graphics g) {
+        try {
+            for (Iterator<Asteroid> iterator = AsteroidsList.iterator(); iterator.hasNext(); ) {
+                iterator.next().render(g);
+            }
+        } 
+        catch (Exception e) {
+            // System.out.println("ERROR");
+        } 
+    }
+    private static void checkCollision(Asteroid asteroid) {
+        for (Iterator<Bullet> iterator = BulletsList.iterator(); iterator.hasNext(); ) {
+            Bullet bullet = iterator.next();
+            if (MathUtils.getDistance(bullet, asteroid) < asteroid.getRadius()) {
+                iterator.remove();
+                asteroid.deductHP(bullet);
+            }
+        }
+        if (MathUtils.getDistance(player, asteroid) < asteroid.getRadius()) {
+            // asteroid.deductHP(player);
+            player.deductHP(asteroid);
+        }
+
     }
 
 }
