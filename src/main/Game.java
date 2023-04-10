@@ -50,12 +50,14 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     private Timer UpdateTimer;
     private Timer RenderTimer;
     private Timer WatchTimer;
-    // Graphics g; //GamePanel graphics
+    public final int MAX_TIME_SEC = 5;
+    private int timeSec = 0;
     private GamePanel gamePanel;
     private InfoPanel infoPanel;
     private InGameMenuPanel menuPanel;
     private GameInfoPanel gameInfoPanel;
     private static int UPS = 60;
+    private int updateCount;
     private int FPS = 60;
     private Border border;
     public ArrayList<Bullet> BulletsList;
@@ -89,7 +91,9 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     public void init() {
         player = new Player(this);
         score = 0;
+        updateCount = 0;
         isPaused = false;
+
         BulletsList = new ArrayList<Bullet>() ;
         DeadBulletsList = new ArrayList<Point>();
         AsteroidsList = new ArrayList<Asteroid>();
@@ -112,6 +116,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
         infoPanel.addText(player.getInfo());
         gameInfoPanel.update();
         checkEnd();
+        updateTime();
     }
 
     public void render() {
@@ -191,7 +196,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
                 iterator.remove();
             }
             else if (asteroid.isDestroyed()) {
-                score += asteroid.getPoint();
+                if (getTimeLeft() > 0) score += asteroid.getPoint();
                 iterator.remove();
             }
         }
@@ -223,6 +228,9 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
             render();
         }
         else if (e.getSource() == UpdateTimer && !isPaused) {
+            update();
+        }
+        else if (e.getSource() == WatchTimer && !isPaused) {
             update();
         }
         else if (e.getActionCommand() == "Resume") {
@@ -280,10 +288,18 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     }
 
     private void checkEnd() {
-        if (player.isDead()) {
+        if (player.isDead() || updateCount >= MAX_TIME_SEC * UPS) {
             menuPanel.changeMenu(Status.END);
         }
     }
-
+    private void updateTime() {
+        if (updateCount < MAX_TIME_SEC * UPS){
+            updateCount++;
+            timeSec = updateCount / UPS;
+        }
+    }
+    public int getTimeLeft() {
+        return MAX_TIME_SEC - timeSec;
+    }
     
 }

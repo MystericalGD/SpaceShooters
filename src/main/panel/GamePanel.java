@@ -4,9 +4,12 @@ import javax.swing.JPanel;
 import controller.AbstractController;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import main.Game;   
 public class GamePanel extends BasePanel {
@@ -37,6 +40,7 @@ public class GamePanel extends BasePanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        renderTimer(g);
         game.renderBullets(g);
         game.renderAsteroids(g);
         game.getPlayer().render(g);
@@ -48,4 +52,30 @@ public class GamePanel extends BasePanel {
         addMouseListener(controller);
         addKeyListener(controller);
     }   
+    private void renderTimer(Graphics g) {
+        Graphics2D g2d = (Graphics2D)g;
+        
+        int size = 150;
+        int gap = 10;
+        int alphaPercent = 10;
+        int x = (int)(getSize().getWidth() - size)/ 2;
+        int y = (int)(getSize().getHeight() - size)/ 2;
+        g2d.setStroke(new BasicStroke(5));
+        g2d.setColor(new Color(0,0,0,alphaPercent*256/100));
+        g2d.drawOval(x-gap, y-gap, size+2*gap, size+2*gap);
+        if (!game.getPlayer().isDead()) {
+            g2d.fillArc(x, y, size, size,90,game.getTimeLeft() * 360 /game.MAX_TIME_SEC);
+            if (game.getTimeLeft() == 0) {
+                // System.out.println("END");
+                g.setFont(new Font("Helvetica", Font.BOLD, 50));
+                g.drawString("END", x+22, (int)getSize().getHeight()/2+20);
+                // g.drawString("END", x-50, (int)getSize().getHeight()+25);
+            } 
+        }
+        else {
+            g.setFont(new Font("Helvetica", Font.BOLD, 50));
+            g.drawString("DIED", x+16, (int)getSize().getHeight()/2+20);
+        }
+         
+    }
 }

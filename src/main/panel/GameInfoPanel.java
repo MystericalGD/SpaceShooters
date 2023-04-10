@@ -24,7 +24,6 @@ public class GameInfoPanel extends BasePanel {
     private class HPPanel extends JPanel {
         HPPanel() {}
         private int xOffset = 25;
-        private int yOffset = 5;
         private int HPBarHeight = 15;
         private int edgeDistance = 3;
         protected void paintComponent(Graphics g) {

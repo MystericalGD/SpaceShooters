@@ -246,10 +246,10 @@ public class Player extends GameObject {
             double oldVelocity = getVelocity();
             velocityX = 0.8*oldVelocity * Math.cos(thetaTrue - Math.PI - 2*thetaHit) + v_fromAsteroid * (Math.cos(thetaHit)) * 1;
             velocityY = 0.8*oldVelocity * Math.sin(thetaTrue - Math.PI - 2*thetaHit) + v_fromAsteroid * (Math.sin(thetaHit)) * 1;
-            HP -= Math.log10(asteroid.getRadius()) * Math.sqrt(Math.pow(velocityX - oldVelocity*Math.cos(thetaTrue),2) + Math.pow(velocityY - oldVelocity*Math.sin(thetaTrue),2)) / Game.getUPS() ;
+            if (game.getTimeLeft() > 0) HP -= Math.log10(asteroid.getRadius()) * Math.sqrt(Math.pow(velocityX - oldVelocity*Math.cos(thetaTrue),2) + Math.pow(velocityY - oldVelocity*Math.sin(thetaTrue),2)) / Game.getUPS() ;
         }
-        x = asteroid.getX() + (Math.cos(thetaHit) * (asteroid.getRadius() + 10));
-        y = asteroid.getY() + (Math.sin(thetaHit) * (asteroid.getRadius() + 10));
+        x = asteroid.getX() + (Math.cos(thetaHit) * (asteroid.getRadius() + 10)) + velocityX/Game.getUPS();
+        y = asteroid.getY() + (Math.sin(thetaHit) * (asteroid.getRadius() + 10)) + velocityY/Game.getUPS();
         regen_boost_status = 0;
         Border border = game.getBorder();
         switch (isHitBorder(game.getBorder())) {
@@ -300,7 +300,6 @@ public class Player extends GameObject {
                     }
                 };
             }
-            System.out.println(deathFrame);
             deathFrame++;
         }
         else if (deathFrame < MAX_DEATH_FRAME){
