@@ -1,8 +1,8 @@
 package controller;
 import java.awt.event.*;
 
-import entities.Player;
 import main.Game;
+import objects.Player;
 
 
 public class KeyController extends AbstractController {
@@ -57,7 +57,7 @@ public class KeyController extends AbstractController {
                 game.getPlayer().setTriggerShoot(true);
             }
             if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                game.getPlayer().boostSpeed(true);
+                game.getPlayer().setTriggerBoost(true);
                 game.getPlayer().setAccelerateDirection(Player.Direction.FORWARD);
             }
         }
@@ -84,7 +84,7 @@ public class KeyController extends AbstractController {
             game.getPlayer().allow_shoot = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-            game.getPlayer().boostSpeed(false);
+            game.getPlayer().setTriggerBoost(false);
             game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
         }
     }

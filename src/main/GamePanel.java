@@ -1,6 +1,8 @@
 package main;
 import javax.swing.JPanel;
 
+import controller.AbstractController;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -29,6 +31,12 @@ public class GamePanel extends JPanel {
 
     public void resetGraphics(Graphics g) {
         super.paintComponent(g);
+    }
+
+    public void addController(AbstractController controller) {
+        addMouseMotionListener(controller);
+        addMouseListener(controller);
+        addKeyListener(controller);
     }
     
 }

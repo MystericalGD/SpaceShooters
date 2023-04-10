@@ -1,23 +1,41 @@
 package main;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 
 public class GameWindow extends JFrame {
-    private static GamePanel gamePanel = new GamePanel();
-    private static InfoPanel infoPanel = new InfoPanel();
+    private GamePanel gamePanel;
+    private InfoPanel infoPanel;
+    private MenuPanel menuPanel;
+    private GameInfoPanel gameInfoPanel;
     GameWindow(String title) {
         super(title);
+        setLayout(new BorderLayout());
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // GameWindow gw = new GameWindow("Asteroid Shooter Game");
-        
+        gamePanel = new GamePanel();
+        infoPanel = new InfoPanel();
+        menuPanel = new MenuPanel();
+        gameInfoPanel = new GameInfoPanel();
 
-        add(gamePanel);
+        JPanel southPanel = new JPanel(new GridLayout(1,2));
+        southPanel.add(menuPanel);
+        southPanel.add(gameInfoPanel);
+        southPanel.setPreferredSize(new Dimension(800, 40));
+        
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(gamePanel);
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
+
+        add(mainPanel, BorderLayout.CENTER);
+        // add(gamePanel);
         add(infoPanel, BorderLayout.EAST);
         pack();
-        new Game(gamePanel, infoPanel);
+        new Game(gamePanel, infoPanel, menuPanel, gameInfoPanel);
         gamePanel.requestFocusInWindow();
     }
 }

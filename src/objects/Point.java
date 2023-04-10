@@ -1,4 +1,4 @@
-package entities;
+package objects;
 
 public class Point {
     protected double x;
@@ -11,11 +11,11 @@ public class Point {
         x = 0;
         y = 0;
     }
-    public double getX() 
+    public final double getX() 
     {
         return x;
     }
-    public double getY() 
+    public final double getY() 
     {
         return y;
     }

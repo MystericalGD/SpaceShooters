@@ -14,7 +14,7 @@ public abstract class AbstractController implements KeyListener, MouseInputListe
     public void mouseEntered(MouseEvent e) {
         isFocused = true;
     }
-    public void registerGame(Game game) {
+    public void addGameListener(Game game) {
         this.game=game;
     }
 }

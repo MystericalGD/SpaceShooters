@@ -1,4 +1,4 @@
-package entities;
+package objects;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -26,9 +26,12 @@ public class Bullet extends GameObject {
         velocityY = MAX_VELOCITY*Math.sin(theta);
     }
 
-    public void update() {
+    public void updatePos() {
         x += (velocityX / Game.getUPS());
         y += (velocityY / Game.getUPS());
+    }
+    public void update() {
+        updatePos();
     }
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
@@ -42,13 +45,4 @@ public class Bullet extends GameObject {
         return (x < border.x || x > border.x + border.w ||
                 y < border.y || y > border.y + border.h);
     }
-    // public boolean checkHit(ArrayList<Asteroid> AsteroidsList) {
-    //     for (Asteroid asteroid: AsteroidsList) {
-    //         if (MathUtils.getDistance(this, asteroid) < asteroid.getSize()) {
-    //             asteroid.isHitBy(this);
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 }

@@ -1,9 +1,10 @@
-package entities;
+package objects;
 import java.awt.Graphics;
 import main.Game;
 public abstract class GameObject extends Point {
     protected Game game;
     protected abstract void update();
+    public abstract void updatePos();
     protected abstract void render(Graphics g);
     // public abstract void isCollided(Object o);
 
@@ -18,6 +19,7 @@ public abstract class GameObject extends Point {
     public void registerGame(Game game) {
         this.game = game;
     }
+
     GameObject(Game game) {
         this();
         this.game=game;

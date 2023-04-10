@@ -1,4 +1,4 @@
-package entities;
+package objects;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -45,4 +45,16 @@ public class Border {
         g2d.setStroke(new BasicStroke(3));
         g2d.drawRect(x, y, w, h);
     }
+    // public int getUpperY() {
+    //     return ()
+    // }
+    // public int getLowerY() {
+
+    // }
+    // public int getLeftX() {
+
+    // }
+    // public int getRightX() {
+
+    // }
 }

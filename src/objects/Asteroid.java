@@ -1,4 +1,4 @@
-package entities;
+package objects;
 import java.awt.Graphics2D;
 import java.util.Random;
 import java.awt.BasicStroke;
@@ -7,14 +7,12 @@ import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import main.Game;
 import utils.MathUtils;
-public class Asteroid extends GameObject implements Movable {
+public class Asteroid extends GameObject  {
     private final int MAX_VELOCITY = 150;
     private final int MIN_VELOCITY = 50;
-    private final double MAX_ANGULAR_SPEED = 1;
-    private final double MIN_ANGULAR_SPEED = 0.2;
-    private final String[] SIZES= new String[] {"small","big"};
-    // private int velocityX;
-    // private int velocityY;
+    private final double MAX_ANGULAR_SPEED = Math.toRadians(360);
+    private final double MIN_ANGULAR_SPEED = Math.toRadians(100);
+    private final String[] SIZES = new String[] {"small","big"};
     private int lifetime;
     private int current_lifetime = 0;
     private int velocity;
@@ -27,23 +25,18 @@ public class Asteroid extends GameObject implements Movable {
     private int point;
     private Random random = new Random();
 
-
-    // public Asteroid() {
-    //     this();
-    //     this.game=game;
-    // }
     public Asteroid(Game game) {
         super(game);
         size = SIZES[random.nextInt(2)];
         switch (size) {
             case "small":
             radius=13;
-            HP = 10;
+            HP = 5;
             point = 10;
             break;
             case "big":
             radius=20;
-            HP = 20;
+            HP = 15;
             point = 20;
         }
         rotation = random.nextDouble(Math.PI);
@@ -58,7 +51,6 @@ public class Asteroid extends GameObject implements Movable {
         Point startPoint = pickPoint(startSide);
         x = startPoint.x;
         y = startPoint.y;
-        // System.out.println(x + " " + y);
         Point endPoint = pickPoint(endSide);
         calculateLifetime(startPoint, endPoint);
         theta = MathUtils.getAngle(startPoint, endPoint);
@@ -84,10 +76,8 @@ public class Asteroid extends GameObject implements Movable {
                 p.y = random.nextInt(0,(int)game.getGamePanelSize().getHeight());
                 break;
             default:
-                // System.out.println("DEFAULT CASE");
                 break;
         }
-        // System.out.println(side);
         return p;
     }
     public void updatePos() {
@@ -111,11 +101,13 @@ public class Asteroid extends GameObject implements Movable {
         g2d.setStroke(new BasicStroke(2));
         switch (radius) {
             case 13:
-                xShapes = new int[] {-3, 8, 11, 1, -12, -10};
-                yShapes = new int[] {-18, -17, 0, 3,-2,-13};
+                xShapes = new int[] {-4,10,14,1,-12,-11};
+                yShapes = new int[] {-13,-11,3,12,6,-7};
+                // xShapes = new int[] {-10, 24, 33, 6, -36, -30};
+                // yShapes = new int[] {-18, -17, 0, 3,-2,-13};
                 g2d.drawPolygon(xShapes,yShapes,6);
+                // g2d.drawOval(-13,-13,26,26);
                 break;
-                // break;
             case 20:
                 xShapes = new int[] {-1,13,21,9,-20,-22,-5};
                 yShapes = new int[] {-24,-18,2,23,14,-3,-12};
@@ -127,7 +119,6 @@ public class Asteroid extends GameObject implements Movable {
         }
         g2d.setTransform(old);
     }
-
 
     void calculateLifetime(Point startPoint, Point endPoint) {
         double distance = MathUtils.getDistance(startPoint,endPoint);
@@ -152,15 +143,13 @@ public class Asteroid extends GameObject implements Movable {
             HP-=5;
         }
     }
-    // public void isHitBy(GameObject o) {
-    //     if (o instanceof Bullet) {
-    //         HP--;
-    //     }
-    //     // else if (o instanceof Bullet) {
-            
-    //     // }
-    // }
+    public double getVelocity() {
+        return velocity;
+    }
     public int getPoint() {
         return point;
+    }
+    public double getTheta() {
+        return theta;
     }
 }
