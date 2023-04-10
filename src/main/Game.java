@@ -15,6 +15,10 @@ import java.awt.event.ItemEvent;
 import controller.AbstractController;
 // import controller.MouseKeyController;
 import controller.KeyController;
+import main.panel.GameInfoPanel;
+import main.panel.GamePanel;
+import main.panel.InGameMenuPanel;
+import main.panel.InfoPanel;
 import objects.Asteroid;
 import objects.Border;
 import objects.Bullet;
@@ -46,7 +50,7 @@ public class Game implements ActionListener, ItemListener {
     Graphics g; //GamePanel graphics
     private GamePanel gamePanel;
     private InfoPanel infoPanel;
-    private MenuPanel menuPanel;
+    private InGameMenuPanel menuPanel;
     private GameInfoPanel gameInfoPanel;
     private static int UPS = 60;
     private int FPS = 60;
@@ -59,7 +63,7 @@ public class Game implements ActionListener, ItemListener {
     // Thread FPSThread;
     // Thread UPSThread;
 
-    Game(GamePanel gamePanel, InfoPanel infoPanel, MenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
+    Game(GamePanel gamePanel, InfoPanel infoPanel, InGameMenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
 
         this.gamePanel = gamePanel;
         this.infoPanel = infoPanel;

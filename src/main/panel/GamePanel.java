@@ -1,4 +1,4 @@
-package main;
+package main.panel;
 import javax.swing.JPanel;
 
 import controller.AbstractController;
@@ -11,7 +11,7 @@ import java.awt.Color;
 
 public class GamePanel extends JPanel {
     private Color bgColor = Color.WHITE;
-    GamePanel() {
+    public GamePanel() {
         setPreferredSize(new Dimension(800,600));
         setFocusable(true);
         

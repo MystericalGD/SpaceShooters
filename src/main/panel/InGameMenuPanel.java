@@ -1,16 +1,16 @@
-package main;
+package main.panel;
 
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
+import main.Game;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-public class MenuPanel extends JPanel {
+public class InGameMenuPanel extends JPanel {
     public JRadioButton FPS30 = new JRadioButton("30 FPS");
     public JRadioButton FPS60 = new JRadioButton("60 FPS");
     public JButton restartBT = new JButton("Restart");
@@ -18,7 +18,7 @@ public class MenuPanel extends JPanel {
     public JButton resumeBT = new JButton("Resume");
     // public JPanel pausePanel = new JPanel(new GridLayout(1,3));
     public JPanel pausePanel = new JPanel(new FlowLayout());
-    MenuPanel() {
+    public InGameMenuPanel() {
         super();
         add(pauseBT);
         JPanel FPSPanel = new JPanel(new FlowLayout());
@@ -42,10 +42,6 @@ public class MenuPanel extends JPanel {
             break;
 
             case PAUSE:
-            // add(resumeBT);
-            // add(FPS30);
-            // add(FPS60);
-            // add(restartBT);
             add(pausePanel);
             break;
 

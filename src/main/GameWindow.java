@@ -2,6 +2,12 @@ package main;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import main.panel.GameInfoPanel;
+import main.panel.GamePanel;
+import main.panel.InGameMenuPanel;
+import main.panel.InfoPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -9,7 +15,7 @@ import java.awt.GridLayout;
 public class GameWindow extends JFrame {
     private GamePanel gamePanel;
     private InfoPanel infoPanel;
-    private MenuPanel menuPanel;
+    private InGameMenuPanel menuPanel;
     private GameInfoPanel gameInfoPanel;
     GameWindow(String title) {
         super(title);
@@ -19,7 +25,7 @@ public class GameWindow extends JFrame {
 
         gamePanel = new GamePanel();
         infoPanel = new InfoPanel();
-        menuPanel = new MenuPanel();
+        menuPanel = new InGameMenuPanel();
         gameInfoPanel = new GameInfoPanel();
 
         JPanel southPanel = new JPanel(new GridLayout(1,2));

@@ -1,4 +1,4 @@
-package main;
+package main.panel;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
