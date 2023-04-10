@@ -206,7 +206,7 @@ public class Player extends GameObject {
         if (o instanceof Asteroid) {
             Asteroid a = (Asteroid)o;
             if (isHit && !wasHit) {        
-                HP-= Math.log10(a.getRadius() * a.getVelocity() / 10) * getVelocity()/ Game.getUPS() ;
+                HP-= Math.sqrt(a.getRadius() * getVelocity() * a.getVelocity()) / Game.getUPS() ;
             }
         }
     }
