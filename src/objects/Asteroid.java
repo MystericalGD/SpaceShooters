@@ -87,12 +87,12 @@ public class Asteroid extends GameObject  {
     }
     public void update() {
         updatePos();
+        rotation += rotationSpeed;
+        rotation %= 2*Math.PI;
     }
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         AffineTransform old = g2d.getTransform();
-        rotation += rotationSpeed;
-        rotation %= 2*Math.PI;
         g2d.translate(x,y);
         g2d.rotate(rotation);
         int[] xShapes;
@@ -103,15 +103,13 @@ public class Asteroid extends GameObject  {
             case 13:
                 xShapes = new int[] {-4,10,14,1,-12,-11};
                 yShapes = new int[] {-13,-11,3,12,6,-7};
-                // xShapes = new int[] {-10, 24, 33, 6, -36, -30};
-                // yShapes = new int[] {-18, -17, 0, 3,-2,-13};
-                g2d.drawPolygon(xShapes,yShapes,6);
                 // g2d.drawOval(-13,-13,26,26);
+                g2d.drawPolygon(xShapes,yShapes,6);
                 break;
-            case 20:
+                case 20:
                 xShapes = new int[] {-1,13,21,9,-20,-22,-5};
                 yShapes = new int[] {-24,-18,2,23,14,-3,-12};
-                
+                // g2d.drawOval(-20,-20,40,40);
                 g2d.drawPolygon(xShapes,yShapes,7);
                 break;
             default:

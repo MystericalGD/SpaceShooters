@@ -8,7 +8,8 @@ public class MathUtils {
     }
     public static double getAngle(Point centerPoint, Point endPoint) {
         double angle = Math.atan((endPoint.getY() - centerPoint.getY())/(endPoint.getX() - centerPoint.getX()));
-        if (angle < 0) angle+= (Math.PI * 2);
+        if (angle < 0) angle += 2*Math.PI;
+        if (endPoint.getX() - centerPoint.getX() < 0) angle -= Math.PI;
         return angle;
     }
 }

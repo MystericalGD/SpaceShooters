@@ -1,9 +1,11 @@
 package main;
 import utils.MathUtils;
 
-import javax.swing.JComponent;
-import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.Graphics;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -20,34 +22,35 @@ import main.panel.GamePanel;
 import main.panel.InGameMenuPanel;
 import main.panel.InfoPanel;
 import objects.Asteroid;
-import objects.Border;
 import objects.Bullet;
+import objects.Border;
 import objects.Player;
 import objects.Point;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ConcurrentModificationException;
-
-public class Game implements ActionListener, ItemListener {
+import javax.swing.JComponent;
+public class Game implements ActionListener, ItemListener, ChangeListener {
     public AbstractController controller;
     public boolean ALLOW_SHOOT = true;
     
     private Player player;
-    private long score = 0;
+    private long score;
     private int MAX_TOTAL_ASTEROIDS = 30;
     private double regenAsteroidTime = 0.2; //seconds
     private int regenAsteroidStatus; //seconds
-    // private static boolean allowRegenAsteroid = true; //seconds
     private boolean isPaused = false;
     public static enum Status {
         PLAY,
         PAUSE,
         END
     }
-    private Timer UPSTimer;
-    private Timer FPSTimer;
-    Graphics g; //GamePanel graphics
+    
+    private Timer UpdateTimer;
+    private Timer RenderTimer;
+    private Timer WatchTimer;
+    // Graphics g; //GamePanel graphics
     private GamePanel gamePanel;
     private InfoPanel infoPanel;
     private InGameMenuPanel menuPanel;
@@ -55,9 +58,9 @@ public class Game implements ActionListener, ItemListener {
     private static int UPS = 60;
     private int FPS = 60;
     private Border border;
-    public ArrayList<Bullet> BulletsList = new ArrayList<Bullet>() ;
-    public ArrayList<Point> DeadBulletsList = new ArrayList<Point>() ;
-    public ArrayList<Asteroid> AsteroidsList = new ArrayList<Asteroid>() ;
+    public ArrayList<Bullet> BulletsList;
+    public ArrayList<Point> DeadBulletsList;
+    public ArrayList<Asteroid> AsteroidsList;
 
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     // Thread FPSThread;
@@ -72,23 +75,34 @@ public class Game implements ActionListener, ItemListener {
 
         menuPanel.addGameListener(this);
         gameInfoPanel.addGameListener(this);
+        gamePanel.addGameListener(this);
 
-        g = gamePanel.getGraphics();
         border = Border.fromCenter(gamePanel.getSize(), 700,500);
-        player = new Player(this);
 
-        controller = new KeyController(1);
+        controller = new KeyController("WASD");
         controller.addGameListener(this);
-
-        regenAsteroidStatus = (int)(regenAsteroidTime * UPS);
-
         gamePanel.addController(controller);
-        System.out.println("DONE");
         
-        UPSTimer = new Timer(1000/UPS,this);
-        FPSTimer = new Timer(1000/FPS,this);
-        UPSTimer.start();
-        FPSTimer.start();
+        init(); 
+    }
+
+    public void init() {
+        player = new Player(this);
+        score = 0;
+        isPaused = false;
+        BulletsList = new ArrayList<Bullet>() ;
+        DeadBulletsList = new ArrayList<Point>();
+        AsteroidsList = new ArrayList<Asteroid>();
+        regenAsteroidStatus = (int)(regenAsteroidTime * UPS);
+        for (int i=0; i < 15; i++) {
+            AsteroidsList.add(new Asteroid(this));
+        }
+        UpdateTimer = new Timer(1000/UPS,this);
+        RenderTimer = new Timer(1000/FPS,this);
+        WatchTimer = new Timer(1000,this);
+        UpdateTimer.start();
+        RenderTimer.start();
+        WatchTimer.start();
     }
 
     public void update() {
@@ -97,21 +111,28 @@ public class Game implements ActionListener, ItemListener {
         updateBullets();
         infoPanel.addText(player.getInfo());
         gameInfoPanel.update();
+        checkEnd();
     }
 
     public void render() {
-        gamePanel.resetGraphics(g);
-        renderBullets(g);
-        renderAsteroids(g);
-        player.render(g);
-        border.render(g);
-        toolkit.sync();
+        gamePanel.repaint();
     }
+    
+
+    public void setPaused(boolean b) {
+        isPaused = b;
+        if (isPaused) menuPanel.changeMenu(Status.PAUSE);
+        else menuPanel.changeMenu(Status.PLAY);
+    }
+    public boolean isPaused() {
+        return isPaused;
+    }
+
 
     public Player getPlayer() {
         return player;
     }
-
+    // @Override
     public Border getBorder() {
         return border;
     }
@@ -143,7 +164,7 @@ public class Game implements ActionListener, ItemListener {
             }
         }
     }
-    private void renderBullets(Graphics g) {
+    public void renderBullets(Graphics g) {
         try {
             for (Iterator<Bullet> iterator = BulletsList.iterator(); iterator.hasNext(); ) {
                 iterator.next().render(g);
@@ -175,7 +196,7 @@ public class Game implements ActionListener, ItemListener {
             }
         }
     }
-    private void renderAsteroids(Graphics g) {
+    public void renderAsteroids(Graphics g) {
         try {
             for (Iterator<Asteroid> iterator = AsteroidsList.iterator(); iterator.hasNext(); ) {
                 iterator.next().render(g);
@@ -195,29 +216,31 @@ public class Game implements ActionListener, ItemListener {
         }
         if (MathUtils.getDistance(player, asteroid) < (asteroid.getRadius() + 10)) {
             player.bounceAsteroid(asteroid);
-            player.deductHP(asteroid);
         }
     }
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == FPSTimer && !isPaused) {
+        if (e.getSource() == RenderTimer) {
             render();
         }
-        else if (e.getSource() == UPSTimer && !isPaused) {
+        else if (e.getSource() == UpdateTimer && !isPaused) {
             update();
         }
         else if (e.getActionCommand() == "Resume") {
             isPaused = false;
-            FPSTimer.start();
-            UPSTimer.start();
             menuPanel.changeMenu(Status.PLAY);
         }
         else if (e.getActionCommand() == "Pause") {
             isPaused = true;
-            FPSTimer.stop();
-            UPSTimer.stop(); 
             menuPanel.changeMenu(Status.PAUSE);
         }
         else if (e.getActionCommand() == "Restart") {
+            restart();
+        }
+        else if (e.getActionCommand() == "WASD") {
+            isPaused = true;
+            menuPanel.changeMenu(Status.PAUSE);
+        }
+        else if (e.getActionCommand() == "Arrow") {
             restart();
         }
     }
@@ -227,22 +250,40 @@ public class Game implements ActionListener, ItemListener {
             menuPanel.FPS30.setSelected(true);
             menuPanel.FPS60.setSelected(false);
             FPS = 30;
-            FPSTimer.stop();
-            FPSTimer = new Timer(1000/FPS,this);
-            FPSTimer.start();
+            RenderTimer.stop();
+            RenderTimer = new Timer(1000/FPS,this);
+            RenderTimer.start();
         }
         else if (e.getItem()== menuPanel.FPS60 && e.getStateChange() == 1) {
             menuPanel.FPS30.setSelected(false);
             menuPanel.FPS60.setSelected(true);
             FPS = 60;
-            FPSTimer.stop();
-            FPSTimer = new Timer(1000/FPS,this);
-            FPSTimer.start();
+            RenderTimer.stop();
+            RenderTimer = new Timer(1000/FPS,this);
+            RenderTimer.start();
+        }
+    }
+
+    public void stateChanged(ChangeEvent e) {
+        if (e.getSource() == menuPanel.sensitivitySlider && controller instanceof KeyController) {
+            ((KeyController)controller).setRotateSpeed(((JSlider)e.getSource()).getValue());
         }
     }
     public long getScore() {
         return score;
     }
 
-    public void restart() {}
+    public void restart() {
+        init();
+        menuPanel.changeMenu(Status.PLAY);
+
+    }
+
+    private void checkEnd() {
+        if (player.isDead()) {
+            menuPanel.changeMenu(Status.END);
+        }
+    }
+
+    
 }

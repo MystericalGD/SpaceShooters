@@ -22,14 +22,15 @@ public class GameWindow extends JFrame {
         setLayout(new BorderLayout());
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
 
         gamePanel = new GamePanel();
         infoPanel = new InfoPanel();
         menuPanel = new InGameMenuPanel();
         gameInfoPanel = new GameInfoPanel();
 
-        JPanel southPanel = new JPanel(new GridLayout(1,2));
-        southPanel.add(menuPanel);
+        JPanel southPanel = new JPanel(new GridLayout(1,-1));
+        // southPanel.add(menuPanel);
         southPanel.add(gameInfoPanel);
         southPanel.setPreferredSize(new Dimension(800, 40));
         
@@ -38,8 +39,7 @@ public class GameWindow extends JFrame {
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
         add(mainPanel, BorderLayout.CENTER);
-        // add(gamePanel);
-        add(infoPanel, BorderLayout.EAST);
+        add(menuPanel, BorderLayout.EAST);
         pack();
         new Game(gamePanel, infoPanel, menuPanel, gameInfoPanel);
         gamePanel.requestFocusInWindow();

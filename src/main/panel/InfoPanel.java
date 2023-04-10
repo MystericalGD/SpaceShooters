@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class InfoPanel extends JPanel{
+public class InfoPanel extends BasePanel { 
     JTextArea textArea = new JTextArea();
     public InfoPanel() {
         super(new GridLayout());

@@ -1,5 +1,5 @@
 package main.panel;
 
-public class MainMenuPanel {
+public class MainMenuPanel extends BasePanel{
     
 }

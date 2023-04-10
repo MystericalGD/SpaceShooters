@@ -8,9 +8,11 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
-
-public class GamePanel extends JPanel {
+import main.Game;   
+public class GamePanel extends BasePanel {
     private Color bgColor = Color.WHITE;
+    private Game game;
+    
     public GamePanel() {
         setPreferredSize(new Dimension(800,600));
         setFocusable(true);
@@ -21,6 +23,7 @@ public class GamePanel extends JPanel {
                 requestFocus();
             }
         });
+        setDoubleBuffered(true);
     }
 
     public void setDarkColor(boolean dark) {
@@ -28,15 +31,21 @@ public class GamePanel extends JPanel {
         else bgColor = Color.WHITE;
         setBackground(bgColor);
     }
+    public void addGameListener(Game game) {
+        this.game = game;
+    }
 
-    public void resetGraphics(Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        game.renderBullets(g);
+        game.renderAsteroids(g);
+        game.getPlayer().render(g);
+        game.getBorder().render(g);
     }
 
     public void addController(AbstractController controller) {
         addMouseMotionListener(controller);
         addMouseListener(controller);
         addKeyListener(controller);
-    }
-    
+    }   
 }

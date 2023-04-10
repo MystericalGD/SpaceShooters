@@ -4,9 +4,7 @@ import java.awt.event.*;
 import main.Game;
 import objects.Player;
 
-
 public class KeyController extends AbstractController {
-    
     private int upBT;
     private int downBT;
     private int leftBT;
@@ -15,20 +13,41 @@ public class KeyController extends AbstractController {
     private boolean rightBTOnce = true;
     private double rotateSpeed = 300.0;
 
-    public KeyController(int mode) {
-        if (mode == 0) {
+    public KeyController(String mode) {
+        if (mode == "Arrow") {
             upBT = KeyEvent.VK_UP;
             downBT = KeyEvent.VK_DOWN;
             leftBT = KeyEvent.VK_LEFT;
             rightBT = KeyEvent.VK_RIGHT;
         }
-        else if (mode == 1) {
+        else if (mode == "WASD") {
             upBT = KeyEvent.VK_W;
             downBT = KeyEvent.VK_S;
             leftBT = KeyEvent.VK_A;
             rightBT = KeyEvent.VK_D;
         }
+        
     }
+    public void switchMode(String mode) {
+        if (mode == "arrow") {
+            upBT = KeyEvent.VK_UP;
+            downBT = KeyEvent.VK_DOWN;
+            leftBT = KeyEvent.VK_LEFT;
+            rightBT = KeyEvent.VK_RIGHT;
+        }
+        else if (mode == "WASD") {
+            upBT = KeyEvent.VK_W;
+            downBT = KeyEvent.VK_S;
+            leftBT = KeyEvent.VK_A;
+            rightBT = KeyEvent.VK_D;
+        }
+        game.getPlayer().setThetaUpdateZero();
+        game.getPlayer().setThetaUpdateZero();
+        game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
+        leftBTOnce = true;
+        rightBTOnce = true;
+    }
+
 
     public void mouseReleased(MouseEvent e) {}
     public void mouseDragged(MouseEvent e) {}
@@ -60,6 +79,9 @@ public class KeyController extends AbstractController {
                 game.getPlayer().setTriggerBoost(true);
                 game.getPlayer().setAccelerateDirection(Player.Direction.FORWARD);
             }
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                game.setPaused(!game.isPaused());
+            }
         }
     }
     public void keyTyped(KeyEvent e) {}
@@ -87,5 +109,8 @@ public class KeyController extends AbstractController {
             game.getPlayer().setTriggerBoost(false);
             game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
         }
+    }
+    public void setRotateSpeed(int value) {
+        rotateSpeed = 180 + 60*value;
     }
 }
