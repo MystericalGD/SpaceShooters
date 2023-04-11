@@ -1,5 +1,4 @@
 package main.panel;
-import javax.swing.JPanel;
 
 import controller.AbstractController;
 
@@ -64,7 +63,7 @@ public class GamePanel extends BasePanel {
         g2d.setColor(new Color(0,0,0,alphaPercent*256/100));
         g2d.drawOval(x-gap, y-gap, size+2*gap, size+2*gap);
         if (!game.getPlayer().isDead()) {
-            g2d.fillArc(x, y, size, size,90,game.getTimeLeft() * 360 /game.MAX_TIME_SEC);
+            g2d.fillArc(x, y, size, size,90,game.getUpdateLeft() * 360 /(game.MAX_TIME_SEC * Game.getUPS()));
             if (game.getTimeLeft() == 0) {
                 // System.out.println("END");
                 g.setFont(new Font("Helvetica", Font.BOLD, 50));

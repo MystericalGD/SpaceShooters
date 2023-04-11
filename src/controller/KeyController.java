@@ -11,7 +11,8 @@ public class KeyController extends AbstractController {
     private int rightBT;
     private boolean leftBTOnce = true;
     private boolean rightBTOnce = true;
-    private double rotateSpeed = 300.0;
+    private boolean upBTHeld = false;
+    private double rotateSpeed = 360.0;
 
     public KeyController(String mode) {
         if (mode == "Arrow") {
@@ -29,7 +30,7 @@ public class KeyController extends AbstractController {
         
     }
     public void switchMode(String mode) {
-        if (mode == "arrow") {
+        if (mode == "Arrow") {
             upBT = KeyEvent.VK_UP;
             downBT = KeyEvent.VK_DOWN;
             leftBT = KeyEvent.VK_LEFT;
@@ -59,6 +60,7 @@ public class KeyController extends AbstractController {
         // if (isFocused)
         {    
             if (e.getKeyCode() == upBT) {
+                upBTHeld = true;
                 game.getPlayer().setAccelerateDirection(Player.Direction.FORWARD);
             }
             if (e.getKeyCode() == downBT && !game.getPlayer().isBoosted) {
@@ -87,8 +89,12 @@ public class KeyController extends AbstractController {
     public void keyTyped(KeyEvent e) {}
 
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == upBT || e.getKeyCode() == downBT) 
-        {   
+        
+        if (e.getKeyCode() == upBT) {
+            upBTHeld = false;
+            if (!game.getPlayer().isBoosted) game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
+        }
+        if  (e.getKeyCode() == downBT) {   
             if (!game.getPlayer().isBoosted) game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
         }
         if (e.getKeyCode() == leftBT)
@@ -107,7 +113,7 @@ public class KeyController extends AbstractController {
         }
         if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
             game.getPlayer().setTriggerBoost(false);
-            game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
+            if (!upBTHeld) game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
         }
     }
     public void setRotateSpeed(int value) {

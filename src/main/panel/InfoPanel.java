@@ -2,7 +2,6 @@ package main.panel;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class InfoPanel extends BasePanel { 

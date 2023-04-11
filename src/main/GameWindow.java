@@ -1,5 +1,9 @@
 package main;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -7,16 +11,14 @@ import main.panel.GameInfoPanel;
 import main.panel.GamePanel;
 import main.panel.InGameMenuPanel;
 import main.panel.InfoPanel;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import main.panel.InstructionPanel;
 
 public class GameWindow extends JFrame {
-    private GamePanel gamePanel;
-    private InfoPanel infoPanel;
-    private InGameMenuPanel menuPanel;
-    private GameInfoPanel gameInfoPanel;
+    private GamePanel gamePanel = new GamePanel();
+    private InfoPanel infoPanel = new InfoPanel();
+    private InGameMenuPanel menuPanel = new InGameMenuPanel();
+    private GameInfoPanel gameInfoPanel = new GameInfoPanel();
+    private InstructionPanel instructionPanel = new InstructionPanel();
     GameWindow(String title) {
         super(title);
         setLayout(new BorderLayout());
@@ -24,13 +26,14 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
-        gamePanel = new GamePanel();
-        infoPanel = new InfoPanel();
-        menuPanel = new InGameMenuPanel();
-        gameInfoPanel = new GameInfoPanel();
+        
+        JPanel southPanel = new JPanel(new GridLayout(1,2));
+        JPanel eastPanel = new JPanel(new BorderLayout());
+        eastPanel.setPreferredSize(new Dimension(230, 600));
 
-        JPanel southPanel = new JPanel(new GridLayout(1,-1));
-        // southPanel.add(menuPanel);
+        eastPanel.add(instructionPanel, BorderLayout.NORTH);
+        eastPanel.add(menuPanel, BorderLayout.CENTER);
+
         southPanel.add(gameInfoPanel);
         southPanel.setPreferredSize(new Dimension(800, 40));
         
@@ -39,7 +42,7 @@ public class GameWindow extends JFrame {
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
         add(mainPanel, BorderLayout.CENTER);
-        add(menuPanel, BorderLayout.EAST);
+        add(eastPanel, BorderLayout.EAST);
         pack();
         new Game(gamePanel, infoPanel, menuPanel, gameInfoPanel);
         gamePanel.requestFocusInWindow();

@@ -11,7 +11,7 @@ public class Player extends GameObject {
     private final double RELOAD_TIME = 0.25;
     private long MAX_RELOAD_STATUS;
     private long reload_status;
-    private final double REGEN_BOOST_TIME = 1.5;
+    private final double REGEN_BOOST_TIME = 0.75;
     private long MAX_REGEN_BOOST_STATUS;
     private long regen_boost_status;
     public boolean allow_shoot = true;
@@ -20,14 +20,11 @@ public class Player extends GameObject {
     private boolean wasHit = false;
     private double velocityX = 0;
     private double velocityY = 0;
-    private double velocityX_thisOnly = 0;
-    private double velocityY_thisOnly = 0;
 
 
-    private double oldVelocity = 0;
     private double thetaTrue = 0;
     private double thetaUpdate = 0;
-    private double HP = 30;
+    private double HP = 100;
     private boolean triggerShoot = false;
     private boolean triggerBoost = false;
     private Direction accelerateDirection = Direction.DEFAULT;
@@ -51,7 +48,7 @@ public class Player extends GameObject {
         this.game = game;
     }
     public Player(int x, int y) {
-        this(x,y, 150,1);
+        this(x,y, 200,1);
     }
     public Player(int x, int y, int MAX_VELOCITY, double ACCELERATION) {
         super(x,y);
@@ -140,23 +137,16 @@ public class Player extends GameObject {
         {
             velocityX += (targetVelocityX - velocityX) * ACCELERATION / Game.getUPS();
             velocityY += (targetVelocityY - velocityY) * ACCELERATION / Game.getUPS();
-            velocityX_thisOnly += (targetVelocityX - velocityX_thisOnly) * ACCELERATION / Game.getUPS();
-            velocityY_thisOnly += (targetVelocityY - velocityY_thisOnly) * ACCELERATION / Game.getUPS();
         }
         else if (accelerateDirection == Direction.BACKWARD) 
         {
             velocityX += (-targetVelocityX - velocityX) * ACCELERATION / Game.getUPS();
             velocityY += (-targetVelocityY - velocityY) * ACCELERATION / Game.getUPS();
-            velocityX_thisOnly += (-targetVelocityX - velocityX_thisOnly) * ACCELERATION / Game.getUPS();
-            velocityY_thisOnly += (-targetVelocityY - velocityY_thisOnly) * ACCELERATION / Game.getUPS();
         }
         else if (accelerateDirection == Direction.DEFAULT) {
             velocityX += (0 - velocityX) * ACCELERATION / (Game.getUPS() * 1.3);
             velocityY += (0 - velocityY) * ACCELERATION / (Game.getUPS() * 1.3);
-            velocityX_thisOnly += (0 - velocityX_thisOnly) * ACCELERATION / (Game.getUPS() * 1.3);
-            velocityY_thisOnly += (0 - velocityY_thisOnly) * ACCELERATION / (Game.getUPS() * 1.3);
         }
-        // System.out.println(velocityX + " " + velocityY);
     }
 
     public void setTriggerShoot(Boolean bool) {
@@ -220,8 +210,8 @@ public class Player extends GameObject {
 
     public void boostSpeed(boolean bool) {
         isBoosted = bool;
-        if (bool) max_velocity = MAX_VELOCITY*3;
-        else max_velocity = MAX_VELOCITY/3;
+        if (bool) max_velocity = MAX_VELOCITY*2;
+        else max_velocity = MAX_VELOCITY/2;
     }
 
     public boolean isDead() {

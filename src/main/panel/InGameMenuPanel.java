@@ -6,9 +6,9 @@ import java.awt.FlowLayout;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
@@ -22,31 +22,44 @@ public class InGameMenuPanel extends BasePanel {
     public JButton resumeBT = new JButton("Resume");
     // public JPanel pausePanel = new JPanel(new GridLayout(1,3));
     public JSlider sensitivitySlider = new JSlider(1,5);
-    public JPanel pausePanel = new JPanel(new FlowLayout());
+    public JPanel pausePanel = new JPanel();
+    public JComboBox<String> controllerModeSelectionBox;
     public InGameMenuPanel() {
-        super();
-        setPreferredSize(new Dimension(100,600));
-        add(pauseBT);
-        JPanel FPSPanel = new JPanel(new FlowLayout());
-
+        super(new FlowLayout());
+        setPreferredSize(new Dimension(120,600));
+        JPanel FPSPanel = new JPanel();
+        JPanel ControllerPanel = new JPanel();
+        
         FPS60.setSelected(true);
         FPSPanel.setLayout(new BoxLayout(FPSPanel, BoxLayout.Y_AXIS));
+        ControllerPanel.setLayout(new BoxLayout(ControllerPanel, BoxLayout.Y_AXIS));
         // FPSPanel.add(new JLabel("FPS"));
         FPSPanel.add(FPS30);
         FPSPanel.add(FPS60);
         FPSPanel.setBorder(new TitledBorder("FPS"));
-        sensitivitySlider.setValue(2);
-        sensitivitySlider.setPreferredSize(new Dimension(100, 40));
+        ControllerPanel.setMaximumSize(new Dimension(90, 100));
+        ControllerPanel.setBorder(new TitledBorder("C"));
+        // ControllerPanel.setBorder(new TitledBorder("Controller"));
+        sensitivitySlider.setPreferredSize(new Dimension(120, 50));
+        sensitivitySlider.setValue(3);
         sensitivitySlider.setPaintTicks(true);
+        sensitivitySlider.setPaintLabels(true);
         sensitivitySlider.setMajorTickSpacing(1);
         sensitivitySlider.setSnapToTicks(true);
         
-        pausePanel.setPreferredSize(new Dimension(100, 600));
+        controllerModeSelectionBox = new JComboBox<String>(new String[]{"WASD", "Arrow"});
+        JLabel sensitivityLabel = new JLabel("Sensitivity");
+        JLabel controllerLabel = new JLabel("Controller Mode");
+        pausePanel.setPreferredSize(new Dimension(120, 300));
         pausePanel.add(resumeBT);
         pausePanel.add(FPSPanel);
-        pausePanel.add(new JLabel("Sensitivity"));
+        pausePanel.add(controllerLabel);
+        pausePanel.add(controllerModeSelectionBox);
+        pausePanel.add(sensitivityLabel);
         pausePanel.add(sensitivitySlider);
         pausePanel.add(restartBT);
+        
+        add(pauseBT);
 
     }
     public void changeMenu(Game.Status status) {
@@ -77,10 +90,13 @@ public class InGameMenuPanel extends BasePanel {
         restartBT.addActionListener(game);
         resumeBT.addActionListener(game);
         pauseBT.addActionListener(game);
-        sensitivitySlider.addChangeListener(game);
+
         // ItemListener
         FPS30.addItemListener(game);
         FPS60.addItemListener(game);
+
+        sensitivitySlider.addChangeListener(game);
+        controllerModeSelectionBox.addItemListener(game);
     }
 
 }
