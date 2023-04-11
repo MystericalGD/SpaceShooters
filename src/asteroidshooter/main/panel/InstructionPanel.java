@@ -1,4 +1,4 @@
-package main.panel;
+package asteroidshooter.main.panel;
 
 import javax.swing.border.TitledBorder;
 import java.awt.Dimension;

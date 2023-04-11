@@ -1,12 +1,12 @@
-package objects;
+package asteroidshooter.objects;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-
-import main.Game;
-import utils.MathUtils;
 import java.util.Random;
+
+import asteroidshooter.main.Game;
+import asteroidshooter.utils.MathUtils;
 public class Player extends GameObject {
     private final double RELOAD_TIME = 0.25;
     private long MAX_RELOAD_STATUS;

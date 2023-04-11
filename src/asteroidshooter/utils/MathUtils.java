@@ -1,5 +1,5 @@
-package utils;
-import objects.Point;
+package asteroidshooter.utils;
+import asteroidshooter.objects.Point;
 
 public class MathUtils {
     public static double getDistance(Point startPoint, Point endPoint) {

@@ -1,8 +1,10 @@
-package main.panel;
+package asteroidshooter.main.panel;
 
 import javax.swing.JPanel;
+
+import asteroidshooter.main.Game;
+
 import java.awt.LayoutManager;
-import main.Game;
 abstract class BasePanel extends JPanel{
     protected Game game;
     BasePanel() {

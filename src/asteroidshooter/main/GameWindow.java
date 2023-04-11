@@ -1,4 +1,4 @@
-package main;
+package asteroidshooter.main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -7,11 +7,11 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import main.panel.GameInfoPanel;
-import main.panel.GamePanel;
-import main.panel.InGameMenuPanel;
-import main.panel.InfoPanel;
-import main.panel.InstructionPanel;
+import asteroidshooter.main.panel.GameInfoPanel;
+import asteroidshooter.main.panel.GamePanel;
+import asteroidshooter.main.panel.InGameMenuPanel;
+import asteroidshooter.main.panel.InfoPanel;
+import asteroidshooter.main.panel.InstructionPanel;
 
 public class GameWindow extends JFrame {
     private GamePanel gamePanel = new GamePanel();

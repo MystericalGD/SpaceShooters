@@ -1,12 +1,14 @@
-package objects;
+package asteroidshooter.objects;
 import java.awt.Graphics2D;
 import java.util.Random;
+
+import asteroidshooter.main.Game;
+import asteroidshooter.utils.MathUtils;
+
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
-import main.Game;
-import utils.MathUtils;
 public class Asteroid extends GameObject  {
     private final int MAX_VELOCITY = 150;
     private final int MIN_VELOCITY = 50;

@@ -1,4 +1,4 @@
-package objects;
+package asteroidshooter.objects;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

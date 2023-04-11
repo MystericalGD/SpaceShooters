@@ -1,6 +1,7 @@
-package objects;
+package asteroidshooter.objects;
 import java.awt.Graphics;
-import main.Game;
+
+import asteroidshooter.main.Game;
 public abstract class GameObject extends Point {
     protected Game game;
     protected double theta = 0;

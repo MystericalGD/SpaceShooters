@@ -1,4 +1,4 @@
-package main.panel;
+package asteroidshooter.main.panel;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -6,13 +6,14 @@ import java.awt.FlowLayout;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
+
+import asteroidshooter.main.Game;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
-
-import main.Game;
 
 public class InGameMenuPanel extends BasePanel {
     public JRadioButton FPS30 = new JRadioButton("30 FPS");

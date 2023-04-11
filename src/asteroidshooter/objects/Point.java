@@ -1,4 +1,4 @@
-package objects;
+package asteroidshooter.objects;
 
 public class Point {
     protected double x;

@@ -1,8 +1,8 @@
-package controller;
+package asteroidshooter.controller;
 import java.awt.event.*;
 
-import main.Game;
-import objects.Player;
+import asteroidshooter.main.Game;
+import asteroidshooter.objects.Player;
 
 public class KeyController extends AbstractController {
     private int upBT;

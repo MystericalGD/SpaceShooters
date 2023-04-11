@@ -1,4 +1,4 @@
-package main.panel;
+package asteroidshooter.main.panel;
 
 import java.awt.Color;
 import java.awt.FlowLayout;

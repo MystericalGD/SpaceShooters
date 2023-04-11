@@ -1,6 +1,4 @@
-package main.panel;
-
-import controller.AbstractController;
+package asteroidshooter.main.panel;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -8,9 +6,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import asteroidshooter.controller.AbstractController;
+import asteroidshooter.main.Game;
+
 import java.awt.BasicStroke;
-import java.awt.Color;
-import main.Game;   
+import java.awt.Color;   
 public class GamePanel extends BasePanel {
     private Color bgColor = Color.WHITE;
     private Game game;

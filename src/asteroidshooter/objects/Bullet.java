@@ -1,10 +1,11 @@
-package objects;
+package asteroidshooter.objects;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import main.Game;
+
+import asteroidshooter.main.Game;
 
 public class Bullet extends GameObject {
     double theta;

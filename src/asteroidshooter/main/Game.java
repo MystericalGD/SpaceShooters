@@ -1,10 +1,21 @@
-package main;
-import utils.MathUtils;
-
+package asteroidshooter.main;
 import javax.swing.JSlider;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import asteroidshooter.controller.AbstractController;
+import asteroidshooter.controller.KeyController;
+import asteroidshooter.main.panel.GameInfoPanel;
+import asteroidshooter.main.panel.GamePanel;
+import asteroidshooter.main.panel.InGameMenuPanel;
+import asteroidshooter.main.panel.InfoPanel;
+import asteroidshooter.objects.Asteroid;
+import asteroidshooter.objects.Border;
+import asteroidshooter.objects.Bullet;
+import asteroidshooter.objects.Player;
+import asteroidshooter.objects.Point;
+import asteroidshooter.utils.MathUtils;
 
 import java.awt.Graphics;
 import java.awt.Dimension;
@@ -12,20 +23,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
-
-import controller.AbstractController;
-// import controller.MouseKeyController;
-import controller.KeyController;
-import main.panel.GameInfoPanel;
-import main.panel.GamePanel;
-import main.panel.InGameMenuPanel;
-import main.panel.InfoPanel;
-import objects.Asteroid;
-import objects.Bullet;
-import objects.Border;
-import objects.Player;
-import objects.Point;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ConcurrentModificationException;
