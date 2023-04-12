@@ -38,7 +38,7 @@ public class Asteroid extends GameObject  {
             break;
             case "big":
             radius=20;
-            HP = 15;
+            HP = 10;
             point = 20;
         }
         rotation = random.nextDouble(Math.PI);

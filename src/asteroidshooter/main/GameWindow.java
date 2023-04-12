@@ -8,15 +8,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import asteroidshooter.main.panel.GameInfoPanel;
-import asteroidshooter.main.panel.GamePanel;
-import asteroidshooter.main.panel.InGameMenuPanel;
-import asteroidshooter.main.panel.InfoPanel;
+import asteroidshooter.main.panel.DisplayPanel;
+import asteroidshooter.main.panel.GameMenuPanel;
+import asteroidshooter.main.panel.StatusPanel;
 import asteroidshooter.main.panel.InstructionPanel;
 
 public class GameWindow extends JFrame {
-    private GamePanel gamePanel = new GamePanel();
-    private InfoPanel infoPanel = new InfoPanel();
-    private InGameMenuPanel menuPanel = new InGameMenuPanel();
+    private DisplayPanel gamePanel = new DisplayPanel();
+    private StatusPanel infoPanel = new StatusPanel();
+    private GameMenuPanel menuPanel = new GameMenuPanel();
     private GameInfoPanel gameInfoPanel = new GameInfoPanel();
     private InstructionPanel instructionPanel = new InstructionPanel();
     GameWindow(String title) {
@@ -30,7 +30,9 @@ public class GameWindow extends JFrame {
         JPanel southPanel = new JPanel(new GridLayout(1,2));
         JPanel eastPanel = new JPanel(new BorderLayout());
         eastPanel.setPreferredSize(new Dimension(230, 600));
-
+        // JPanel firstEastPanel = new JPanel();
+        // eastPanel.add(firstEastPanel, BorderLayout.NORTH);
+        // firstEastPanel.add(instructionPanel);
         eastPanel.add(instructionPanel, BorderLayout.NORTH);
         eastPanel.add(menuPanel, BorderLayout.CENTER);
 

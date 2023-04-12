@@ -15,7 +15,7 @@ import java.lang.NullPointerException;
 import java.awt.Component;
 import java.awt.Dimension;
 
-public class GameInfoPanel extends BasePanel {
+public class GameInfoPanel extends GamePanel {
     TextPanel textPanel = new TextPanel();
     HPPanel HPPanelObj = new HPPanel();
     JLabel scoreLabel = new JLabel();
@@ -55,11 +55,11 @@ public class GameInfoPanel extends BasePanel {
             try {
                 int midPanelY = (int)(getSize().getHeight()/2);
                 super.paintComponent(g);
+                g.drawString("HP", xOffset,  midPanelY + 5);
                 g.setColor(Color.black);
                 g.drawRect(xOffset + 25, midPanelY - HPBarHeight/2  - edgeDistance, 100 + 2*edgeDistance, HPBarHeight + 2*edgeDistance);
                 g.fillRect(xOffset + edgeDistance + 25, midPanelY - HPBarHeight/2, (int)Math.round(game.getPlayer().getHP()), HPBarHeight);
                 g.drawString(Math.round(game.getPlayer().getHP()) + "/100", 135 + xOffset, midPanelY + 5);
-                g.drawString("HP", xOffset,  midPanelY + 5);
             }
             catch (NullPointerException e) {}
         }

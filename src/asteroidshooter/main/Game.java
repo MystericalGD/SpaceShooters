@@ -7,9 +7,9 @@ import javax.swing.event.ChangeListener;
 import asteroidshooter.controller.AbstractController;
 import asteroidshooter.controller.KeyController;
 import asteroidshooter.main.panel.GameInfoPanel;
-import asteroidshooter.main.panel.GamePanel;
-import asteroidshooter.main.panel.InGameMenuPanel;
-import asteroidshooter.main.panel.InfoPanel;
+import asteroidshooter.main.panel.DisplayPanel;
+import asteroidshooter.main.panel.GameMenuPanel;
+import asteroidshooter.main.panel.StatusPanel;
 import asteroidshooter.objects.Asteroid;
 import asteroidshooter.objects.Border;
 import asteroidshooter.objects.Bullet;
@@ -38,8 +38,8 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     private int MAX_TOTAL_ASTEROIDS = 30;
     private double regenAsteroidTime = 0.2; //seconds
     private int regenAsteroidStatus; //seconds
-    private boolean isPaused = false;
-    private boolean isEndChecked = false;
+    private boolean isPaused;
+    private boolean isEndChecked;
     public static enum Status {
         PLAY,
         PAUSE,
@@ -48,12 +48,11 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     
     private Timer UpdateTimer;
     private Timer RenderTimer;
-    private Timer WatchTimer;
-    public final int MAX_TIME_SEC = 30;
+    public final int MAX_TIME_SEC = 60;
     private int timeSec = 0;
-    private GamePanel gamePanel;
-    private InfoPanel infoPanel;
-    private InGameMenuPanel menuPanel;
+    private DisplayPanel gamePanel;
+    private StatusPanel infoPanel;
+    private GameMenuPanel menuPanel;
     private GameInfoPanel gameInfoPanel;
     private static int UPS = 60;
     private int updateCount;
@@ -64,7 +63,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     public ArrayList<Asteroid> AsteroidsList;
 
 
-    Game(GamePanel gamePanel, InfoPanel infoPanel, InGameMenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
+    Game(DisplayPanel gamePanel, StatusPanel infoPanel, GameMenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
 
         this.gamePanel = gamePanel;
         this.infoPanel = infoPanel;
@@ -89,20 +88,19 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
         score = 0;
         updateCount = 0;
         isPaused = false;
+        isEndChecked = false;
 
         BulletsList = new ArrayList<Bullet>() ;
         DeadBulletsList = new ArrayList<Point>();
         AsteroidsList = new ArrayList<Asteroid>();
         regenAsteroidStatus = (int)(regenAsteroidTime * UPS);
-        for (int i=0; i < 15; i++) {
+        for (int i=0; i < 8; i++) {
             AsteroidsList.add(new Asteroid(this));
         }
         UpdateTimer = new Timer(1000/UPS,this);
         RenderTimer = new Timer(1000/FPS,this);
-        WatchTimer = new Timer(1000,this);
         UpdateTimer.start();
         RenderTimer.start();
-        WatchTimer.start();
     }
 
     public void update() {
@@ -251,7 +249,9 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     private void checkCollision(Asteroid asteroid) {
         for (Iterator<Bullet> iterator = BulletsList.iterator(); iterator.hasNext(); ) {
             Bullet bullet = iterator.next();
-            if (MathUtils.getDistance(bullet, asteroid) < asteroid.getRadius()) {
+            Point bulletPoint = bullet;         //implicit casting
+            Point asteroidPoint = asteroid;
+            if (MathUtils.getDistance(bulletPoint, asteroidPoint) < asteroid.getRadius()) {
                 iterator.remove();
                 asteroid.deductHP(bullet);
             }
@@ -267,9 +267,6 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
             render();
         }
         else if (e.getSource() == UpdateTimer && !isPaused) {
-            update();
-        }
-        else if (e.getSource() == WatchTimer && !isPaused) {
             update();
         }
         else if (e.getActionCommand() == "Resume") {

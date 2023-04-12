@@ -297,7 +297,6 @@ public class Player extends GameObject {
                 o.update();
                 o.render(g);
             }
-            System.out.println(deathFrame);
             deathFrame++;
         }
     }

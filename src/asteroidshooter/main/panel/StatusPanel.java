@@ -4,9 +4,9 @@ import java.awt.GridLayout;
 
 import javax.swing.JTextArea;
 
-public class InfoPanel extends BasePanel { 
+public class StatusPanel extends GamePanel { 
     JTextArea textArea = new JTextArea();
-    public InfoPanel() {
+    public StatusPanel() {
         super(new GridLayout());
         textArea.setEditable(false);
         add(textArea);

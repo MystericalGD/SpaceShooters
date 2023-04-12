@@ -2,11 +2,13 @@ package asteroidshooter.main.panel;
 
 import javax.swing.border.TitledBorder;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-
+import javax.swing.Box;
+import java.awt.Component;
 public class InstructionPanel extends JPanel {
     String instructionText =
     "<html>" +
@@ -29,15 +31,16 @@ public class InstructionPanel extends JPanel {
     "<html>";
     JLabel scoreCalcArea = new JLabel(scoreCalcText);
     public InstructionPanel() {
-        setPreferredSize(new Dimension(230,300));
-
+        setPreferredSize(new Dimension(getWidth(),310));
         JPanel p = new JPanel();
-        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        p.setPreferredSize(new Dimension(210,150));
         p.setBorder(new TitledBorder("Instruction"));
         p.add(instructionArea);
         JPanel p2 = new JPanel();
+        p2.setPreferredSize(new Dimension(210,150));
         p2.setBorder(new TitledBorder("Scoring"));
         p2.add(scoreCalcArea);
+        System.out.println();
         instructionArea.setBackground(getBackground());
         add(p);
         add(p2);

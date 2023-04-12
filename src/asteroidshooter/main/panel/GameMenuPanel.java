@@ -15,17 +15,20 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
-public class InGameMenuPanel extends BasePanel {
+public class GameMenuPanel extends GamePanel {
     public JRadioButton FPS30 = new JRadioButton("30 FPS");
     public JRadioButton FPS60 = new JRadioButton("60 FPS");
-    public JButton restartBT = new JButton("Restart");
+    public JButton restartBT1 = new JButton("Restart");
+    public JButton restartBT2 = new JButton("Restart");
     public JButton pauseBT = new JButton("Pause");
     public JButton resumeBT = new JButton("Resume");
     // public JPanel pausePanel = new JPanel(new GridLayout(1,3));
     public JSlider sensitivitySlider = new JSlider(1,5);
     public JPanel pausePanel = new JPanel();
+    public JPanel playPanel = new JPanel();
+    public JPanel endPanel = new JPanel();
     public JComboBox<String> controllerModeSelectionBox;
-    public InGameMenuPanel() {
+    public GameMenuPanel() {
         super(new FlowLayout());
         setPreferredSize(new Dimension(120,600));
         JPanel FPSPanel = new JPanel();
@@ -58,26 +61,27 @@ public class InGameMenuPanel extends BasePanel {
         pausePanel.add(controllerModeSelectionBox);
         pausePanel.add(sensitivityLabel);
         pausePanel.add(sensitivitySlider);
-        pausePanel.add(restartBT);
+        pausePanel.add(restartBT1);
         
-        add(pauseBT);
+        endPanel.add(restartBT2);
+        playPanel.add(pauseBT);
+
+        add(playPanel);
 
     }
     public void changeMenu(Game.Status status) {
-        removeAll();
+        remove(getComponent(0));
         switch (status) {
             case PLAY:
-            add(pauseBT);
+            add(playPanel);
             break;
 
             case PAUSE:
-            pausePanel.remove(restartBT);
-            pausePanel.add(restartBT);
             add(pausePanel);
             break;
 
             case END:
-            add(restartBT);
+            add(endPanel);
             break;
         }
         revalidate();
@@ -88,7 +92,8 @@ public class InGameMenuPanel extends BasePanel {
         // ActionListener
         FPS30.addActionListener(game);
         FPS60.addActionListener(game);
-        restartBT.addActionListener(game);
+        restartBT1.addActionListener(game);
+        restartBT2.addActionListener(game);
         resumeBT.addActionListener(game);
         pauseBT.addActionListener(game);
 

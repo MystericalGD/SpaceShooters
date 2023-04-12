@@ -13,7 +13,7 @@ public class Bullet extends GameObject {
     private double velocityY;
     private double length = 7;
     private Color bulletColor = Color.BLACK;
-    public static final double MAX_VELOCITY = 1000;
+    public static final double MAX_VELOCITY = 1500;
     public static final int MAX_BULLETS = 20;
     Bullet(double x, double y, double theta, Game game) {
         this(x,y,theta);
