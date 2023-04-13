@@ -6,15 +6,13 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.border.TitledBorder;
-
-import asteroidshooter.main.Game;
-
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.border.TitledBorder;
+
+import asteroidshooter.main.Game;
 
 public class GameMenuPanel extends GamePanel {
     public JRadioButton FPS30BT = new JRadioButton("30 FPS");
@@ -60,8 +58,8 @@ public class GameMenuPanel extends GamePanel {
         playPanel.add(pauseBT);
 
         add(playPanel);
-
     }
+
     public void changeMenu(Game.Status status) {
         remove(getComponent(0));
         switch (status) {
