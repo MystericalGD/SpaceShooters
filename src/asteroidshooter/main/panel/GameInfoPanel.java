@@ -19,19 +19,11 @@ public class GameInfoPanel extends GamePanel {
     private HPPanel HPPanelObj = new HPPanel();
     private JLabel scoreLabel = new JLabel();
     public GameInfoPanel() {
-        super(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.3;
-        c.weighty = 1;
-        c.gridheight = 3;
-        c.gridx = 0;
-        c.ipady = 40;
-        scoreLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        add(scoreLabel,c);
-        c.weightx = 0.5;
-        c.gridx = 1;
-        add(HPPanelObj, c);
+        super(new FlowLayout());
+        setBackground(Color.WHITE);
+        setPreferredSize(new Dimension(800,40));
+        add(scoreLabel);
+        add(HPPanelObj);
     }
 
     public void update() {
