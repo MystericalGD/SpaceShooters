@@ -24,22 +24,22 @@ public class Asteroid extends GameObject  {
     private double HP;
     private String size;
     private int radius;
-    private int point;
-    private Random random = new Random();
+    private int XP;
 
     public Asteroid(Game game) {
         super(game);
+        Random random = new Random();
         size = SIZES[random.nextInt(2)];
         switch (size) {
             case "small":
             radius=13;
             HP = 5;
-            point = 10;
+            XP = 10;
             break;
             case "big":
             radius=20;
             HP = 10;
-            point = 20;
+            XP = 20;
         }
         rotation = random.nextDouble(Math.PI);
         rotationSpeed = random.nextDouble(MIN_ANGULAR_SPEED/Game.getUPS(),MAX_ANGULAR_SPEED/Game.getUPS());
@@ -50,15 +50,16 @@ public class Asteroid extends GameObject  {
             endSide++;
             endSide %=4;
         }
-        Point startPoint = pickPoint(startSide);
+        Point startPoint = pickCoordinate(startSide);
         x = startPoint.x;
         y = startPoint.y;
-        Point endPoint = pickPoint(endSide);
+        Point endPoint = pickCoordinate(endSide);
         calculateLifetime(startPoint, endPoint);
         theta = MathUtils.getAngle(startPoint, endPoint);
     }
 
-    private Point pickPoint(int side) {
+    private Point pickCoordinate(int side) {
+        Random random = new Random();
         Point p = new Point();
         switch (side) {
             case 0: // up
@@ -82,7 +83,7 @@ public class Asteroid extends GameObject  {
         }
         return p;
     }
-    public void updatePos() {
+    protected void updatePos() {
         x += velocity*Math.cos(theta)/Game.getUPS();
         y += velocity*Math.sin(theta)/Game.getUPS();
         current_lifetime++;
@@ -120,7 +121,7 @@ public class Asteroid extends GameObject  {
         g2d.setTransform(old);
     }
 
-    void calculateLifetime(Point startPoint, Point endPoint) {
+    private void calculateLifetime(Point startPoint, Point endPoint) {
         double distance = MathUtils.getDistance(startPoint,endPoint);
         lifetime = (int)(distance * Game.getUPS() / velocity);
         // System.out.println(lifetime);
@@ -146,8 +147,8 @@ public class Asteroid extends GameObject  {
     public double getVelocity() {
         return velocity;
     }
-    public int getPoint() {
-        return point;
+    public int getXP() {
+        return XP;
     }
     public double getTheta() {
         return theta;

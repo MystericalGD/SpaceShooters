@@ -1,7 +1,6 @@
 package asteroidshooter.main.panel;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 
 import javax.swing.JLabel;
@@ -9,33 +8,35 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
 
 
 import java.lang.NullPointerException;
-import java.awt.Component;
 import java.awt.Dimension;
 
 public class GameInfoPanel extends GamePanel {
-    TextPanel textPanel = new TextPanel();
-    HPPanel HPPanelObj = new HPPanel();
-    JLabel scoreLabel = new JLabel();
+    // private TextPanel textPanel = new TextPanel();
+    private HPPanel HPPanelObj = new HPPanel();
+    private JLabel scoreLabel = new JLabel();
     public GameInfoPanel() {
-        super(new GridBagLayout());
+        super(new FlowLayout());
         setBackground(Color.WHITE);
-        GridBagConstraints c = new GridBagConstraints();
-        
-        setPreferredSize(new Dimension(160,40));
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.3;
-        c.weighty = 1;
-        c.gridheight = 3;
-        c.gridx = 0;
-        c.ipady = 40;
-        scoreLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        add(scoreLabel,c);
-        c.weightx = 0.5;
-        c.gridx = 1;
-        add(HPPanelObj, c);
+        setPreferredSize(new Dimension(800,40));
+        add(scoreLabel);
+        add(HPPanelObj);
+        // super(new GridBagLayout());
+        // GridBagConstraints c = new GridBagConstraints();
+        // c.fill = GridBagConstraints.HORIZONTAL;
+        // c.weightx = 0.3;
+        // c.weighty = 1;
+        // c.gridheight = 3;
+        // c.gridx = 0;
+        // c.ipady = 40;
+        // scoreLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        // add(scoreLabel,c);
+        // c.weightx = 0.5;
+        // c.gridx = 1;
+        // add(HPPanelObj, c);
     }
 
     public void update() {
@@ -47,10 +48,12 @@ public class GameInfoPanel extends GamePanel {
     private class HPPanel extends JPanel {
         HPPanel() {
             setBackground(Color.WHITE);
+            setPreferredSize(new Dimension(250,40));
         }
         private int xOffset = 25;
         private int HPBarHeight = 15;
         private int edgeDistance = 3;
+
         protected void paintComponent(Graphics g) {
             try {
                 int midPanelY = (int)(getSize().getHeight()/2);
@@ -62,16 +65,6 @@ public class GameInfoPanel extends GamePanel {
                 g.drawString(Math.round(game.getPlayer().getHP()) + "/100", 135 + xOffset, midPanelY + 5);
             }
             catch (NullPointerException e) {}
-        }
-    }
-    private class TextPanel extends JPanel {
-        JLabel scoreLabel = new JLabel();
-        
-        TextPanel() {
-            setLayout(new FlowLayout());
-            add(scoreLabel);
-            scoreLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-            scoreLabel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
         }
     }
 }

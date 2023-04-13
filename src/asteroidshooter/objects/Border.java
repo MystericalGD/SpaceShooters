@@ -9,11 +9,10 @@ import java.awt.Dimension;
 
 public class Border {
 
-    public int x;
-    public int y;
-    public int w;
-    public int h;
-
+    private int x;
+    private int y;
+    private int w;
+    private int h;
     private Color strokeCol = Color.black;
 
     public Border(int x, int y, int w, int h) {
@@ -44,5 +43,17 @@ public class Border {
         g2d.setColor(strokeCol);
         g2d.setStroke(new BasicStroke(3));
         g2d.drawRect(x, y, w, h);
+    }
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
+    public int getWidth() {
+        return w;
+    }
+    public int getHeight() {
+        return h;
     }
 }

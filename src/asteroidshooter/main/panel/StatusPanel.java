@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JTextArea;
 
 public class StatusPanel extends GamePanel { 
-    JTextArea textArea = new JTextArea();
+    private JTextArea textArea = new JTextArea();
     public StatusPanel() {
         super(new GridLayout());
         textArea.setEditable(false);

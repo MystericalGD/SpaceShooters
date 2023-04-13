@@ -14,7 +14,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;   
 public class DisplayPanel extends GamePanel {
     private Color bgColor = Color.WHITE;
-    private Game game;
     
     public DisplayPanel() {
         setPreferredSize(new Dimension(800,600));
@@ -33,9 +32,6 @@ public class DisplayPanel extends GamePanel {
         if (dark) bgColor = new Color(35, 35, 59);
         else bgColor = Color.WHITE;
         setBackground(bgColor);
-    }
-    public void addGameListener(Game game) {
-        this.game = game;
     }
 
     protected void paintComponent(Graphics g) {
@@ -62,7 +58,7 @@ public class DisplayPanel extends GamePanel {
         int y = (int)(getSize().getHeight() - size)/ 2;
         g2d.setStroke(new BasicStroke(5));
         g2d.setColor(new Color(0,0,0,alphaPercent*256/100));
-        if (!game.getPlayer().isDead()) {
+        if (!game.getPlayer().getIsDead()) {
             g2d.fillArc(x, y, size, size,90,game.getUpdateLeft() * 360 /(game.MAX_TIME_SEC * Game.getUPS()));
             if (game.getTimeLeft() == 0) {
                 Color c = Color.GREEN;

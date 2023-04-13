@@ -13,7 +13,7 @@ abstract class GamePanel extends JPanel{
     GamePanel(LayoutManager layout) {
         super(layout);
     }
-    public void addGameListener(Game game) {
+    public void addGame(Game game) {
         this.game = game;
     }
 

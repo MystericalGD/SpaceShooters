@@ -16,8 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JSlider;
 
 public class GameMenuPanel extends GamePanel {
-    public JRadioButton FPS30 = new JRadioButton("30 FPS");
-    public JRadioButton FPS60 = new JRadioButton("60 FPS");
+    public JRadioButton FPS30BT = new JRadioButton("30 FPS");
+    public JRadioButton FPS60BT = new JRadioButton("60 FPS");
     public JButton restartBT1 = new JButton("Restart");
     public JButton restartBT2 = new JButton("Restart");
     public JButton pauseBT = new JButton("Pause");
@@ -34,12 +34,12 @@ public class GameMenuPanel extends GamePanel {
         JPanel FPSPanel = new JPanel();
         JPanel ControllerPanel = new JPanel();
         
-        FPS60.setSelected(true);
+        FPS60BT.setSelected(true);
         FPSPanel.setLayout(new BoxLayout(FPSPanel, BoxLayout.Y_AXIS));
         ControllerPanel.setLayout(new BoxLayout(ControllerPanel, BoxLayout.Y_AXIS));
         // FPSPanel.add(new JLabel("FPS"));
-        FPSPanel.add(FPS30);
-        FPSPanel.add(FPS60);
+        FPSPanel.add(FPS30BT);
+        FPSPanel.add(FPS60BT);
         FPSPanel.setBorder(new TitledBorder("FPS"));
         ControllerPanel.setMaximumSize(new Dimension(90, 100));
         ControllerPanel.setBorder(new TitledBorder("C"));
@@ -88,21 +88,21 @@ public class GameMenuPanel extends GamePanel {
         repaint();
     }
 
-    public void addGameListener(Game game) {
+    public void addGame(Game game) {
         // ActionListener
-        FPS30.addActionListener(game);
-        FPS60.addActionListener(game);
+        super.addGame(game);
+        FPS30BT.addActionListener(game);
+        FPS60BT.addActionListener(game);
         restartBT1.addActionListener(game);
         restartBT2.addActionListener(game);
         resumeBT.addActionListener(game);
         pauseBT.addActionListener(game);
 
         // ItemListener
-        FPS30.addItemListener(game);
-        FPS60.addItemListener(game);
+        FPS30BT.addItemListener(game);
+        FPS60BT.addItemListener(game);
 
         sensitivitySlider.addChangeListener(game);
         controllerModeSelectionBox.addItemListener(game);
     }
-
 }

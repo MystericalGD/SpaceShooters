@@ -1,4 +1,5 @@
 package asteroidshooter.utils;
+
 import asteroidshooter.objects.Point;
 
 public class MathUtils {

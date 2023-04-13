@@ -10,31 +10,29 @@ import asteroidshooter.utils.MathUtils;
 public class Player extends GameObject {
     private final double RELOAD_TIME = 0.25;
     private long MAX_RELOAD_STATUS;
-    private long reload_status;
+    private long reloadStatus;
     private final double REGEN_BOOST_TIME = 0.75;
-    private long MAX_REGEN_BOOST_STATUS;
-    private long regen_boost_status;
-    public boolean allow_shoot = true;
+    private final long MAX_REGEN_BOOST_STATUS;
+    private final long MAX_BULLETS_SHOT = 20;
+    private long regenBoostStatus;
+    public boolean isReloadDone = true;
     public boolean isBoosted = false;
     public boolean isHit = false;
     private boolean wasHit = false;
     private double velocityX = 0;
     private double velocityY = 0;
-
-
     private double thetaTrue = 0;
     private double thetaUpdate = 0;
     private double HP = 100;
     private boolean triggerShoot = false;
     private boolean triggerBoost = false;
     private Direction accelerateDirection = Direction.DEFAULT;
-    private final double ACCELERATION;
-    private final int MAX_VELOCITY;
+    private final double ACCELERATION = 1;
+    private final int MAX_VELOCITY = 200;
     private int max_velocity;
     private Color fireColor = Color.GRAY;
     private Color playerColorPrimary = Color.BLACK;
     private Color playerColorSecondary = Color.GRAY;
-
     private int deathFrame = 0;
     private final int MAX_DEATH_FRAME = 60;
     private GameObject[] deathPoints = new GameObject[10] ;
@@ -48,27 +46,22 @@ public class Player extends GameObject {
         this.game = game;
     }
     public Player(int x, int y) {
-        this(x,y, 200,1);
-    }
-    public Player(int x, int y, int MAX_VELOCITY, double ACCELERATION) {
         super(x,y);
-        this.MAX_VELOCITY = MAX_VELOCITY;
         max_velocity = MAX_VELOCITY;
-        this.ACCELERATION = ACCELERATION;
         MAX_RELOAD_STATUS = Math.round(RELOAD_TIME*Game.getUPS());
         MAX_REGEN_BOOST_STATUS = Math.round(REGEN_BOOST_TIME*Game.getUPS());
-        reload_status = MAX_RELOAD_STATUS;
-        regen_boost_status = MAX_REGEN_BOOST_STATUS;
+        reloadStatus = MAX_RELOAD_STATUS;
+        regenBoostStatus = MAX_REGEN_BOOST_STATUS;
     }
 
-    public enum Direction {
+    public static enum Direction {
         FORWARD,
         BACKWARD,
         DEFAULT
     }
     
     public void render(Graphics g) {
-        if (!isDead()) {
+        if (!getIsDead()) {
             Graphics2D g2d = (Graphics2D)g;
             AffineTransform old = g2d.getTransform();
             
@@ -105,14 +98,14 @@ public class Player extends GameObject {
         wasHit = isHit;
     }
 
-    public void updatePos() {
+    protected void updatePos() {
         accelerate();
-        isHitBorder(game.getBorder());
+        getBorderHit(game.getBorder());
         x += (velocityX / Game.getUPS());
         y += (velocityY / Game.getUPS());
     }
 
-    public void updateTheta() {
+    private void updateTheta() {
         thetaTrue += thetaUpdate;
         thetaTrue %= (2*Math.PI);
         if (thetaTrue < 0) thetaTrue += (2*Math.PI);
@@ -155,42 +148,42 @@ public class Player extends GameObject {
     public void setTriggerBoost(Boolean bool) {
         triggerBoost = bool;
     }
-    public void updateShoot() { 
-        if (!isDead()) {
-            if (triggerShoot && allow_shoot && game.BulletsList.size() < Bullet.MAX_BULLETS) {
-                reload_status = 0;
-                allow_shoot = false;
+    private void updateShoot() { 
+        if (!getIsDead()) {
+            if (triggerShoot && isReloadDone && game.BulletsList.size() < MAX_BULLETS_SHOT) {
+                reloadStatus = 0;
+                isReloadDone = false;
                 game.BulletsList.add(new Bullet(x, y, theta, game));
             }
-            if (reload_status < MAX_RELOAD_STATUS) {
-                reload_status++;
-            } else allow_shoot = true;
+            if (reloadStatus < MAX_RELOAD_STATUS) {
+                reloadStatus++;
+            } else isReloadDone = true;
         }
     }
-    public void updateBoost() {
-        if (triggerBoost && (regen_boost_status == MAX_REGEN_BOOST_STATUS)) {
+    private void updateBoost() {
+        if (triggerBoost && (regenBoostStatus == MAX_REGEN_BOOST_STATUS)) {
             boostSpeed(true);
         }
         else boostSpeed(false);
-        if (regen_boost_status < MAX_REGEN_BOOST_STATUS) {
-            regen_boost_status++;
+        if (regenBoostStatus < MAX_REGEN_BOOST_STATUS) {
+            regenBoostStatus++;
         }
     }
 
-    public int isHitBorder(Border border) {
-        if (x+velocityX/Game.getUPS() <= border.x + 10)  {
+    public int getBorderHit(Border border) {
+        if (x+velocityX/Game.getUPS() <= border.getX() + 10)  {
             velocityX *= -0.6;
             return 1;
         }
-        else if (x+velocityX/Game.getUPS() >= border.x + border.w - 10) {
+        else if (x+velocityX/Game.getUPS() >= border.getX() + border.getWidth() - 10) {
             velocityX *= -0.6;
             return 3;
         }
-        else if (y+velocityY/Game.getUPS() <= border.y + 10) {
+        else if (y+velocityY/Game.getUPS() <= border.getY() + 10) {
             velocityY *= -0.6;
             return 0;
         }
-        else if (y+velocityY/Game.getUPS() >= border.y + border.h - 10) {
+        else if (y+velocityY/Game.getUPS() >= border.getY() + border.getHeight() - 10) {
             velocityY *= -0.6;
             return 2;
         }
@@ -208,13 +201,13 @@ public class Player extends GameObject {
         return info;
     }
 
-    public void boostSpeed(boolean bool) {
-        isBoosted = bool;
-        if (bool) max_velocity = MAX_VELOCITY*2;
+    public void boostSpeed(boolean b) {
+        isBoosted = b;
+        if (b) max_velocity = MAX_VELOCITY*2;
         else max_velocity = MAX_VELOCITY/2;
     }
 
-    public boolean isDead() {
+    public boolean getIsDead() {
         if (Math.round(HP) <=0) {
             HP = 0;
             return true;
@@ -240,23 +233,23 @@ public class Player extends GameObject {
         }
         x = asteroid.getX() + (Math.cos(thetaHit) * (asteroid.getRadius() + 10)) + velocityX/Game.getUPS();
         y = asteroid.getY() + (Math.sin(thetaHit) * (asteroid.getRadius() + 10)) + velocityY/Game.getUPS();
-        regen_boost_status = 0;
+        regenBoostStatus = 0;
         Border border = game.getBorder();
-        switch (isHitBorder(game.getBorder())) {
+        switch (getBorderHit(game.getBorder())) {
             case 0:
-            y = border.y+15;
+            y = border.getY()+15;
             break;
 
             case 1:
-            x = border.x+15;
+            x = border.getX()+15;
             break;
 
             case 2:
-            y = border.y+border.h-15;
+            y = border.getY()+border.getHeight()-15;
             break;
 
             case 3:
-            x = border.x+border.w-15;
+            x = border.getX()+border.getWidth()-15;
             break;
             default:
             break;
@@ -269,7 +262,7 @@ public class Player extends GameObject {
         if (deathFrame == 0) {
             deathPoints[0] = new GameObject(x,y, (rng.nextDouble()) * Math.PI * 2) {
                 public void update() {}
-                public void updatePos() {}
+                protected void updatePos() {}
                 public void render(Graphics graphics) {
                     graphics.setColor(new Color(0,0,0,(MAX_DEATH_FRAME-deathFrame) * 128 / MAX_DEATH_FRAME));
                     graphics.fillOval((int)x-deathFrame*2,(int)y-deathFrame*2,deathFrame*4,deathFrame*4);

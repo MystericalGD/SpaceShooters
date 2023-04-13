@@ -29,14 +29,12 @@ import java.util.ConcurrentModificationException;
 
 import javax.swing.JRadioButton;
 public class Game implements ActionListener, ItemListener, ChangeListener {
-    public AbstractController controller;
-    public boolean ALLOW_SHOOT = true;
-    
+    private AbstractController controller;
     private Player player;
     private long score;
     private long highestScore = 0;
-    private int MAX_TOTAL_ASTEROIDS = 30;
-    private double regenAsteroidTime = 0.2; //seconds
+    private final int MAX_TOTAL_ASTEROIDS = 30;
+    private final double REGEN_ASTEROID_TIME = 0.2; //seconds
     private int regenAsteroidStatus; //seconds
     private boolean isPaused;
     private boolean isEndChecked;
@@ -44,14 +42,13 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
         PLAY,
         PAUSE,
         END
-    }
-    
-    private Timer UpdateTimer;
-    private Timer RenderTimer;
+    }    
+    private Timer updateTimer;
+    private Timer renderTimer;
     public final int MAX_TIME_SEC = 60;
     private int timeSec = 0;
     private DisplayPanel gamePanel;
-    private StatusPanel infoPanel;
+    private StatusPanel statusPanel;
     private GameMenuPanel menuPanel;
     private GameInfoPanel gameInfoPanel;
     private static int UPS = 60;
@@ -63,21 +60,21 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     public ArrayList<Asteroid> AsteroidsList;
 
 
-    Game(DisplayPanel gamePanel, StatusPanel infoPanel, GameMenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
+    Game(DisplayPanel gamePanel, StatusPanel statusPanel, GameMenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
 
         this.gamePanel = gamePanel;
-        this.infoPanel = infoPanel;
+        this.statusPanel = statusPanel;
         this.menuPanel = menuPanel;
         this.gameInfoPanel = gameInfoPanel;
 
-        menuPanel.addGameListener(this);
-        gameInfoPanel.addGameListener(this);
-        gamePanel.addGameListener(this);
+        menuPanel.addGame(this);
+        gameInfoPanel.addGame(this);
+        gamePanel.addGame(this);
 
         border = Border.fromCenter(gamePanel.getSize(), 700,500);
 
         controller = new KeyController("WASD");
-        controller.addGameListener(this);
+        controller.addGame(this);
         gamePanel.addController(controller);
         
         init(); 
@@ -93,21 +90,21 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
         BulletsList = new ArrayList<Bullet>() ;
         DeadBulletsList = new ArrayList<Point>();
         AsteroidsList = new ArrayList<Asteroid>();
-        regenAsteroidStatus = (int)(regenAsteroidTime * UPS);
+        regenAsteroidStatus = (int)(REGEN_ASTEROID_TIME * UPS);
         for (int i=0; i < 8; i++) {
             AsteroidsList.add(new Asteroid(this));
         }
-        UpdateTimer = new Timer(1000/UPS,this);
-        RenderTimer = new Timer(1000/FPS,this);
-        UpdateTimer.start();
-        RenderTimer.start();
+        updateTimer = new Timer(1000/UPS,this);
+        renderTimer = new Timer(1000/FPS,this);
+        updateTimer.start();
+        renderTimer.start();
     }
 
     public void update() {
         updateAsteroids();
         player.update();
         updateBullets();
-        infoPanel.addText(player.getInfo());
+        statusPanel.addText(player.getInfo());
         gameInfoPanel.update();
         checkEnd();
         updateTime();
@@ -125,7 +122,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
                 menuPanel.changeMenu(Status.END);
                 isEndChecked = true;
             }
-            else if (player.isDead()) {
+            else if (player.getIsDead()) {
                 menuPanel.changeMenu(Status.END);
                 isEndChecked = true;
             }
@@ -154,7 +151,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
         if (isPaused) menuPanel.changeMenu(Status.PAUSE);
         else menuPanel.changeMenu(Status.PLAY);
     }
-    public boolean isPaused() {
+    public boolean getPaused() {
         return isPaused;
     }
 
@@ -215,11 +212,11 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     // ASTEROID
 
     private void updateAsteroids() {
-        if (AsteroidsList.size() < MAX_TOTAL_ASTEROIDS && (regenAsteroidStatus == regenAsteroidTime * UPS)) {
+        if (AsteroidsList.size() < MAX_TOTAL_ASTEROIDS && (regenAsteroidStatus == REGEN_ASTEROID_TIME * UPS)) {
             AsteroidsList.add(new Asteroid(this));
             regenAsteroidStatus = 0;
         }
-        else if (regenAsteroidStatus < regenAsteroidTime * UPS) {
+        else if (regenAsteroidStatus < REGEN_ASTEROID_TIME * UPS) {
             regenAsteroidStatus++;
         }
         player.isHit = false;
@@ -231,7 +228,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
                 iterator.remove();
             }
             else if (asteroid.isDestroyed()) {
-                if (getTimeLeft() > 0) score += asteroid.getPoint();
+                if (getTimeLeft() > 0) score += asteroid.getXP();
                 iterator.remove();
             }
         }
@@ -263,10 +260,10 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
 
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == RenderTimer) {
+        if (e.getSource() == renderTimer) {
             render();
         }
-        else if (e.getSource() == UpdateTimer && !isPaused) {
+        else if (e.getSource() == updateTimer && !isPaused) {
             update();
         }
         else if (e.getActionCommand() == "Resume") {
@@ -285,21 +282,21 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == 1) 
         {
-            if (e.getItem() == menuPanel.FPS30) {
-                menuPanel.FPS30.setSelected(true);
-                menuPanel.FPS60.setSelected(false);
+            if (e.getItem() == menuPanel.FPS30BT) {
+                menuPanel.FPS30BT.setSelected(true);
+                menuPanel.FPS60BT.setSelected(false);
                 FPS = 30;
-                RenderTimer.stop();
-                RenderTimer = new Timer(1000/FPS,this);
-                RenderTimer.start();
+                renderTimer.stop();
+                renderTimer = new Timer(1000/FPS,this);
+                renderTimer.start();
             }
-            else if (e.getItem()== menuPanel.FPS60) {
-                menuPanel.FPS30.setSelected(false);
-                menuPanel.FPS60.setSelected(true);
+            else if (e.getItem()== menuPanel.FPS60BT) {
+                menuPanel.FPS30BT.setSelected(false);
+                menuPanel.FPS60BT.setSelected(true);
                 FPS = 60;
-                RenderTimer.stop();
-                RenderTimer = new Timer(1000/FPS,this);
-                RenderTimer.start();
+                renderTimer.stop();
+                renderTimer = new Timer(1000/FPS,this);
+                renderTimer.start();
             }
             else if ((e.getSource() == menuPanel.controllerModeSelectionBox) && controller instanceof KeyController) {
                 System.out.println(e.getItem().toString());
@@ -308,7 +305,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
         }
         else if (e.getStateChange() == 2) 
         {
-            if (!menuPanel.FPS30.isSelected() && !menuPanel.FPS60.isSelected()) {
+            if (!menuPanel.FPS30BT.isSelected() && !menuPanel.FPS60BT.isSelected()) {
                 ((JRadioButton)e.getItem()).setSelected(true);
             }
         }

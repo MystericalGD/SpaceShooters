@@ -19,7 +19,7 @@ public class GameWindow extends JFrame {
     private GameMenuPanel menuPanel = new GameMenuPanel();
     private GameInfoPanel gameInfoPanel = new GameInfoPanel();
     private InstructionPanel instructionPanel = new InstructionPanel();
-    GameWindow(String title) {
+    public GameWindow(String title) {
         super(title);
         setLayout(new BorderLayout());
         setVisible(true);
