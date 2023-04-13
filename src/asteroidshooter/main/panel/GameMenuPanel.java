@@ -2,6 +2,7 @@ package asteroidshooter.main.panel;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -30,21 +31,13 @@ public class GameMenuPanel extends GamePanel {
     public JComboBox<String> controllerModeSelectionBox;
     public GameMenuPanel() {
         super(new FlowLayout());
-        setPreferredSize(new Dimension(120,600));
-        JPanel FPSPanel = new JPanel();
-        JPanel ControllerPanel = new JPanel();
+        JPanel FPSPanel = new JPanel(new GridLayout(2, 1));
         
         FPS60BT.setSelected(true);
-        FPSPanel.setLayout(new BoxLayout(FPSPanel, BoxLayout.Y_AXIS));
-        ControllerPanel.setLayout(new BoxLayout(ControllerPanel, BoxLayout.Y_AXIS));
-        // FPSPanel.add(new JLabel("FPS"));
         FPSPanel.add(FPS30BT);
         FPSPanel.add(FPS60BT);
         FPSPanel.setBorder(new TitledBorder("FPS"));
-        ControllerPanel.setMaximumSize(new Dimension(90, 100));
-        ControllerPanel.setBorder(new TitledBorder("C"));
-        // ControllerPanel.setBorder(new TitledBorder("Controller"));
-        sensitivitySlider.setPreferredSize(new Dimension(120, 50));
+        sensitivitySlider.setPreferredSize(new Dimension(150, 50));
         sensitivitySlider.setValue(3);
         sensitivitySlider.setPaintTicks(true);
         sensitivitySlider.setPaintLabels(true);
@@ -54,7 +47,7 @@ public class GameMenuPanel extends GamePanel {
         controllerModeSelectionBox = new JComboBox<String>(new String[]{"WASD", "Arrow"});
         JLabel sensitivityLabel = new JLabel("Sensitivity");
         JLabel controllerLabel = new JLabel("Controller Mode");
-        pausePanel.setPreferredSize(new Dimension(120, 300));
+        pausePanel.setPreferredSize(new Dimension(150, 300));
         pausePanel.add(resumeBT);
         pausePanel.add(FPSPanel);
         pausePanel.add(controllerLabel);

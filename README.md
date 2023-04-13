@@ -1,23 +1,3 @@
-<!-- ## Getting Started
-
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies). -->
 # Asteroid Shooter
-## Introduction
-Asteroid Shooter is my final project for DES103 Java OOP 2/2022 course at SIIT. Shall you have any inquiries, please contact me via this email: 6522781333@g.siit.tu.ac.th.
-
-<!-- ## Dependencies -->
+## Project Description
+Asteroid shooter is a space shooting game developed on Java Swing framework. The objective of the game is to shoot as many asteroids as possible within the time limit while dodging and surviving the incoming waves of asteroids in a weightless space. Only a keyboard required, and players are able to experience the fascinating gameplay with a real-life physics simulation.

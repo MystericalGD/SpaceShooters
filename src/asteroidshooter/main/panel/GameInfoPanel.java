@@ -5,11 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.FlowLayout;
-
 
 import java.lang.NullPointerException;
 import java.awt.Dimension;

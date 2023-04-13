@@ -2,13 +2,8 @@ package asteroidshooter.main.panel;
 
 import javax.swing.border.TitledBorder;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.Box;
-import java.awt.Component;
 public class InstructionPanel extends JPanel {
     private String instructionText =
     "<html>" +
