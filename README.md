@@ -4,3 +4,6 @@ Asteroid shooter is a space shooting game developed on Java Swing framework. The
 ## UML Diagram of Classes
 High resolution PDF files at [`/others/AsteroidShooterUML.pdf`](https://github.com/MystericalGD/AsteroidShooter/blob/projectsubmission/others/AsteroidShooterUML.pdf)
 ![UML Diagram of project classes](/others/AsteroidShooterUML.png)
+## Demo Gameplay
+![Gameplay](/others/GameplayDemo.gif)
+
