@@ -105,7 +105,7 @@ public class Asteroid extends GameObject  {
         switch (radius) {
             case 13:
                 xShapes = new int[] {-4,10,14,1,-12,-11};
-                yShapes = new int[] {-13,-11,3,12,6,-7};
+                yShapes = new int[] {-13,-11,3,13,6,-7};
                 // g2d.drawOval(-13,-13,26,26);
                 g2d.drawPolygon(xShapes,yShapes,6);
                 break;
