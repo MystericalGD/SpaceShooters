@@ -43,11 +43,13 @@ public class DisplayPanel extends GamePanel {
         game.getBorder().render(g);
     }
 
-    public void addController(AbstractController controller) {
-        addMouseMotionListener(controller);
-        addMouseListener(controller);
-        addKeyListener(controller);
-    }   
+    @Override
+    public void addGame(Game game) {
+        super.addGame(game);
+        addMouseMotionListener(game.getController());
+        addMouseListener(game.getController());
+        addKeyListener(game.getController());
+    }
     private void renderTimer(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         

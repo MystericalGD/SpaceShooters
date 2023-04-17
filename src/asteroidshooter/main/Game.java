@@ -60,23 +60,20 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     public ArrayList<Asteroid> AsteroidsList;
 
 
-    Game(DisplayPanel gamePanel, StatusPanel statusPanel, GameMenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
+    Game(DisplayPanel displayPanel, StatusPanel statusPanel, GameMenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
 
-        this.gamePanel = gamePanel;
+        this.gamePanel = displayPanel;
         this.statusPanel = statusPanel;
         this.menuPanel = menuPanel;
         this.gameInfoPanel = gameInfoPanel;
 
+        border = Border.fromCenter(displayPanel.getSize(), 700,500);
+        controller = new KeyController("WASD");
+        
+        controller.addGame(this);
         menuPanel.addGame(this);
         gameInfoPanel.addGame(this);
-        gamePanel.addGame(this);
-
-        border = Border.fromCenter(gamePanel.getSize(), 700,500);
-
-        controller = new KeyController("WASD");
-        controller.addGame(this);
-        gamePanel.addController(controller);
-        
+        displayPanel.addGame(this);
         init(); 
     }
 
@@ -155,11 +152,14 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
         return isPaused;
     }
 
+    public AbstractController getController() {
+        return controller;
+    }
 
     public Player getPlayer() {
         return player;
     }
-    // @Override
+
     public Border getBorder() {
         return border;
     }
