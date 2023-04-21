@@ -2,7 +2,6 @@ package asteroidshooter.controller;
 import java.awt.event.*;
 
 import asteroidshooter.main.Game;
-import asteroidshooter.objects.Player;
 
 public class KeyController extends AbstractController {
     private int upBT;
@@ -44,7 +43,7 @@ public class KeyController extends AbstractController {
         }
         game.getPlayer().setThetaUpdateZero();
         game.getPlayer().setThetaUpdateZero();
-        game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
+        game.getPlayer().setAccelerateDirection('0');
         leftBTHeld = true;
         rightBTHeld = true;
     }
@@ -61,10 +60,10 @@ public class KeyController extends AbstractController {
         {    
             if (e.getKeyCode() == upBT) {
                 upBTHeld = true;
-                game.getPlayer().setAccelerateDirection(Player.Direction.FORWARD);
+                game.getPlayer().setAccelerateDirection('F');
             }
             if (e.getKeyCode() == downBT && !game.getPlayer().isBoosted) {
-                game.getPlayer().setAccelerateDirection(Player.Direction.BACKWARD);
+                game.getPlayer().setAccelerateDirection('B');
             }
             if (e.getKeyCode() == leftBT && leftBTHeld) {
                 game.getPlayer().setThetaUpdate(-rotateSpeed/Game.getUPS());
@@ -79,7 +78,7 @@ public class KeyController extends AbstractController {
             }
             if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
                 game.getPlayer().setTriggerBoost(true);
-                game.getPlayer().setAccelerateDirection(Player.Direction.FORWARD);
+                game.getPlayer().setAccelerateDirection('F');
             }
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 game.setPaused(!game.getPaused());
@@ -92,10 +91,10 @@ public class KeyController extends AbstractController {
         
         if (e.getKeyCode() == upBT) {
             upBTHeld = false;
-            if (!game.getPlayer().isBoosted) game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
+            if (!game.getPlayer().isBoosted) game.getPlayer().setAccelerateDirection('0');
         }
         if  (e.getKeyCode() == downBT) {   
-            if (!game.getPlayer().isBoosted) game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
+            if (!game.getPlayer().isBoosted) game.getPlayer().setAccelerateDirection('0');
         }
         if (e.getKeyCode() == leftBT)
         {
@@ -113,7 +112,7 @@ public class KeyController extends AbstractController {
         }
         if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
             game.getPlayer().setTriggerBoost(false);
-            if (!upBTHeld) game.getPlayer().setAccelerateDirection(Player.Direction.DEFAULT);
+            if (!upBTHeld) game.getPlayer().setAccelerateDirection('0');
         }
     }
     public void setRotateSpeed(int value) {

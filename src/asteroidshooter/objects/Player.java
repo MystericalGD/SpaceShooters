@@ -26,9 +26,10 @@ public class Player extends GameObject {
     private double HP = 100;
     private boolean triggerShoot = false;
     private boolean triggerBoost = false;
-    private Direction accelerateDirection = Direction.DEFAULT;
+    // private Direction accelerateDirection = Direction.DEFAULT;
+    private char accelerateDirection = '0';
     private final double ACCELERATION = 1;
-    private final int MAX_VELOCITY = 200;
+    private final int MAX_VELOCITY = 300;
     private int max_velocity;
     private Color fireColor = Color.GRAY;
     private Color playerColorPrimary = Color.BLACK;
@@ -54,11 +55,11 @@ public class Player extends GameObject {
         regenBoostStatus = MAX_REGEN_BOOST_STATUS;
     }
 
-    public static enum Direction {
-        FORWARD,
-        BACKWARD,
-        DEFAULT
-    }
+    // public static enum Direction {
+    //     FORWARD,
+    //     BACKWARD,
+    //     DEFAULT
+    // }
     
     public void render(Graphics g) {
         if (!getIsDead()) {
@@ -76,7 +77,7 @@ public class Player extends GameObject {
             g2d.fillOval(-5,-5,10,10);
 
 
-            if (accelerateDirection == Direction.FORWARD) {
+            if (accelerateDirection == 'F') {
                 g2d.setColor(fireColor);
                 g2d.fillPolygon(
                     new int[]{-10, -15, -13, -17, -13, -15, -10}, 
@@ -119,24 +120,24 @@ public class Player extends GameObject {
         thetaUpdate = 0;
     }
 
-    public void setAccelerateDirection(Direction d) {
+    public void setAccelerateDirection(char d) {
         accelerateDirection = d;
     }
 
     public void accelerate() {
         double targetVelocityX = max_velocity*Math.cos(theta);
         double targetVelocityY = max_velocity*Math.sin(theta);
-        if (accelerateDirection == Direction.FORWARD) 
+        if (accelerateDirection == 'F') 
         {
             velocityX += (targetVelocityX - velocityX) * ACCELERATION / Game.getUPS();
             velocityY += (targetVelocityY - velocityY) * ACCELERATION / Game.getUPS();
         }
-        else if (accelerateDirection == Direction.BACKWARD) 
+        else if (accelerateDirection == 'B') 
         {
             velocityX += (-targetVelocityX - velocityX) * ACCELERATION / Game.getUPS();
             velocityY += (-targetVelocityY - velocityY) * ACCELERATION / Game.getUPS();
         }
-        else if (accelerateDirection == Direction.DEFAULT) {
+        else if (accelerateDirection == '0') {
             velocityX += (0 - velocityX) * ACCELERATION / (Game.getUPS() * 1.3);
             velocityY += (0 - velocityY) * ACCELERATION / (Game.getUPS() * 1.3);
         }
@@ -191,8 +192,8 @@ public class Player extends GameObject {
     }
 
     public String getInfo() {
-        String directionStr = (accelerateDirection == Direction.FORWARD) ? "Forward" : 
-                              (accelerateDirection == Direction.BACKWARD) ? "Backward" : 
+        String directionStr = (accelerateDirection == 'F') ? "Forward" : 
+                              (accelerateDirection == 'B') ? "Backward" : 
                               "Default";
         String info = "Direction: " + directionStr + '\n' + 
                       String.format("Theta (degrees): %d\n",Math.round(Math.toDegrees(theta))) +
@@ -203,8 +204,8 @@ public class Player extends GameObject {
 
     public void boostSpeed(boolean b) {
         isBoosted = b;
-        if (b) max_velocity = MAX_VELOCITY*2;
-        else max_velocity = MAX_VELOCITY/2;
+        if (b) max_velocity = (int)(MAX_VELOCITY*1.5);
+        else max_velocity = (int)(MAX_VELOCITY/1.5);
     }
 
     public boolean getIsDead() {
