@@ -1,4 +1,5 @@
 package asteroidshooter.controller;
+
 import java.awt.event.*;
 
 import asteroidshooter.main.Game;
@@ -19,23 +20,21 @@ public class KeyController extends AbstractController {
             downBT = KeyEvent.VK_DOWN;
             leftBT = KeyEvent.VK_LEFT;
             rightBT = KeyEvent.VK_RIGHT;
-        }
-        else if (mode == "WASD") {
+        } else if (mode == "WASD") {
             upBT = KeyEvent.VK_W;
             downBT = KeyEvent.VK_S;
             leftBT = KeyEvent.VK_A;
             rightBT = KeyEvent.VK_D;
         }
-        
     }
+
     public void switchMode(String mode) {
         if (mode == "Arrow") {
             upBT = KeyEvent.VK_UP;
             downBT = KeyEvent.VK_DOWN;
             leftBT = KeyEvent.VK_LEFT;
             rightBT = KeyEvent.VK_RIGHT;
-        }
-        else if (mode == "WASD") {
+        } else if (mode == "WASD") {
             upBT = KeyEvent.VK_W;
             downBT = KeyEvent.VK_S;
             leftBT = KeyEvent.VK_A;
@@ -48,16 +47,24 @@ public class KeyController extends AbstractController {
         rightBTHeld = true;
     }
 
+    public void mouseReleased(MouseEvent e) {
+    }
 
-    public void mouseReleased(MouseEvent e) {}
-    public void mouseDragged(MouseEvent e) {}
-    public void mousePressed(MouseEvent e) {}
-    public void mouseClicked(MouseEvent e) {}
-    public void mouseMoved(MouseEvent e) {}
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    public void mouseMoved(MouseEvent e) {
+    }
 
     public void keyPressed(KeyEvent e) {
         // if (isFocused)
-        {    
+        {
             if (e.getKeyCode() == upBT) {
                 upBTHeld = true;
                 game.getPlayer().setAccelerateDirection('F');
@@ -66,11 +73,11 @@ public class KeyController extends AbstractController {
                 game.getPlayer().setAccelerateDirection('B');
             }
             if (e.getKeyCode() == leftBT && leftBTHeld) {
-                game.getPlayer().setThetaUpdate(-rotateSpeed/Game.getUPS());
+                game.getPlayer().setThetaUpdate(-rotateSpeed / Game.getUPS());
                 leftBTHeld = false;
             }
             if (e.getKeyCode() == rightBT && rightBTHeld) {
-                game.getPlayer().setThetaUpdate(rotateSpeed/Game.getUPS());
+                game.getPlayer().setThetaUpdate(rotateSpeed / Game.getUPS());
                 rightBTHeld = false;
             }
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -85,25 +92,27 @@ public class KeyController extends AbstractController {
             }
         }
     }
-    public void keyTyped(KeyEvent e) {}
+
+    public void keyTyped(KeyEvent e) {
+    }
 
     public void keyReleased(KeyEvent e) {
-        
+
         if (e.getKeyCode() == upBT) {
             upBTHeld = false;
-            if (!game.getPlayer().isBoosted) game.getPlayer().setAccelerateDirection('0');
+            if (!game.getPlayer().isBoosted)
+                game.getPlayer().setAccelerateDirection('0');
         }
-        if  (e.getKeyCode() == downBT) {   
-            if (!game.getPlayer().isBoosted) game.getPlayer().setAccelerateDirection('0');
+        if (e.getKeyCode() == downBT) {
+            if (!game.getPlayer().isBoosted)
+                game.getPlayer().setAccelerateDirection('0');
         }
-        if (e.getKeyCode() == leftBT)
-        {
-            game.getPlayer().setThetaUpdate(rotateSpeed/Game.getUPS());
+        if (e.getKeyCode() == leftBT) {
+            game.getPlayer().setThetaUpdate(rotateSpeed / Game.getUPS());
             leftBTHeld = true;
         }
-        if (e.getKeyCode() == rightBT)
-        {
-            game.getPlayer().setThetaUpdate(-rotateSpeed/Game.getUPS());
+        if (e.getKeyCode() == rightBT) {
+            game.getPlayer().setThetaUpdate(-rotateSpeed / Game.getUPS());
             rightBTHeld = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -112,10 +121,12 @@ public class KeyController extends AbstractController {
         }
         if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
             game.getPlayer().setTriggerBoost(false);
-            if (!upBTHeld) game.getPlayer().setAccelerateDirection('0');
+            if (!upBTHeld)
+                game.getPlayer().setAccelerateDirection('0');
         }
     }
+
     public void setRotateSpeed(int value) {
-        rotateSpeed = 180 + 60*value;
+        rotateSpeed = 180 + 60 * value;
     }
 }

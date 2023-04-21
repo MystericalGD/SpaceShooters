@@ -13,30 +13,34 @@ public class Bullet extends GameObject {
     private double velocityY;
     private double length = 7;
     private Color bulletColor = Color.BLACK;
+
     Bullet(double x, double y, double theta, Game game) {
-        this(x,y,theta);
-        this.game=game;
+        this(x, y, theta);
+        this.game = game;
     }
+
     Bullet(double x, double y, double theta) {
         this.x = x;
         this.y = y;
         this.theta = theta;
-        velocityX = MAX_VELOCITY*Math.cos(theta);
-        velocityY = MAX_VELOCITY*Math.sin(theta);
+        velocityX = MAX_VELOCITY * Math.cos(theta);
+        velocityY = MAX_VELOCITY * Math.sin(theta);
     }
 
     protected void updatePos() {
         x += (velocityX / Game.getUPS());
         y += (velocityY / Game.getUPS());
     }
+
     public void update() {
         updatePos();
     }
+
     public void render(Graphics g) {
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(bulletColor);
         g2d.setStroke(new BasicStroke(5));
-        g2d.drawLine((int)x, (int)y, (int)(x - length*Math.cos(theta)), (int)(y - length*Math.sin(theta)));
+        g2d.drawLine((int) x, (int) y, (int) (x - length * Math.cos(theta)), (int) (y - length * Math.sin(theta)));
     }
 
     public boolean outsideBorder() {

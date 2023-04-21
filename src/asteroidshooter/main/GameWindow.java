@@ -19,6 +19,7 @@ public class GameWindow extends JFrame {
     private GameMenuPanel menuPanel = new GameMenuPanel();
     private GameInfoPanel gameInfoPanel = new GameInfoPanel();
     private InstructionPanel instructionPanel = new InstructionPanel();
+
     public GameWindow(String title) {
         super(title);
         setLayout(new BorderLayout());
@@ -26,19 +27,15 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
-        
-        JPanel southPanel = new JPanel(new GridLayout(1,2));
+        JPanel southPanel = new JPanel(new GridLayout(1, 2));
         JPanel eastPanel = new JPanel(new BorderLayout());
         eastPanel.setPreferredSize(new Dimension(230, 600));
-        // JPanel firstEastPanel = new JPanel();
-        // eastPanel.add(firstEastPanel, BorderLayout.NORTH);
-        // firstEastPanel.add(instructionPanel);
         eastPanel.add(instructionPanel, BorderLayout.NORTH);
         eastPanel.add(menuPanel, BorderLayout.CENTER);
 
         southPanel.add(gameInfoPanel);
         southPanel.setPreferredSize(new Dimension(800, 40));
-        
+
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(gamePanel);
         mainPanel.add(southPanel, BorderLayout.SOUTH);
