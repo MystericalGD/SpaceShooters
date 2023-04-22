@@ -40,13 +40,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     private int regenAsteroidStatus; // seconds
     private boolean isPaused;
     private boolean isEndChecked;
-
-    public static enum Status {
-        PLAY,
-        PAUSE,
-        END
-    }
-
+    public static String status = "play";
     private Timer updateTimer;
     private Timer renderTimer;
     public final int MAX_TIME_SEC = 60;
@@ -119,10 +113,10 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
             if (updateCount >= MAX_TIME_SEC * UPS) {
                 score = score + Math.round(player.getHP()) * 4;
                 highestScore = Math.max(score, highestScore);
-                menuPanel.changeMenu(Status.END);
+                menuPanel.changeMenu("end");
                 isEndChecked = true;
             } else if (player.getIsDead()) {
-                menuPanel.changeMenu(Status.END);
+                menuPanel.changeMenu("end");
                 isEndChecked = true;
             }
         }
@@ -130,7 +124,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
 
     public void restart() {
         init();
-        menuPanel.changeMenu(Status.PLAY);
+        menuPanel.changeMenu("play");
     }
 
     private void updateTime() {
@@ -151,9 +145,9 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     public void setPaused(boolean b) {
         isPaused = b;
         if (isPaused)
-            menuPanel.changeMenu(Status.PAUSE);
+            menuPanel.changeMenu("pause");
         else
-            menuPanel.changeMenu(Status.PLAY);
+            menuPanel.changeMenu("play");
     }
 
     public boolean getPaused() {
@@ -277,10 +271,10 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
             update();
         } else if (e.getActionCommand() == "Resume") {
             isPaused = false;
-            menuPanel.changeMenu(Status.PLAY);
+            menuPanel.changeMenu("play");
         } else if (e.getActionCommand() == "Pause") {
             isPaused = true;
-            menuPanel.changeMenu(Status.PAUSE);
+            menuPanel.changeMenu("pause");
         } else if (e.getActionCommand() == "Restart") {
             restart();
         }

@@ -60,18 +60,18 @@ public class GameMenuPanel extends GamePanel {
         add(playPanel);
     }
 
-    public void changeMenu(Game.Status status) {
+    public void changeMenu(String status) {
         remove(getComponent(0));
         switch (status) {
-            case PLAY:
+            case "play":
             add(playPanel);
             break;
 
-            case PAUSE:
+            case "pause":
             add(pausePanel);
             break;
 
-            case END:
+            case "end":
             add(endPanel);
             break;
         }
