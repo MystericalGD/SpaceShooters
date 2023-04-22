@@ -40,8 +40,6 @@ public class KeyController extends AbstractController {
             leftBT = KeyEvent.VK_A;
             rightBT = KeyEvent.VK_D;
         }
-        // game.getPlayer().setThetaUpdateZero();
-        // game.getPlayer().setThetaUpdateZero();
         game.getPlayer().setAccelerateDirection('0');
         leftBTHeld = true;
         rightBTHeld = true;
