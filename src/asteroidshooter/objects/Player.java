@@ -28,7 +28,6 @@ public class Player extends GameObject {
     private double HP = 100;
     private boolean triggerShoot = false;
     private boolean triggerBoost = false;
-    // private Direction accelerateDirection = Direction.DEFAULT;
     private char accelerateDirection = '0';
     private final double ACCELERATION = 1;
     private final int MAX_VELOCITY = 300;
@@ -112,12 +111,12 @@ public class Player extends GameObject {
     }
 
     public void setThetaUpdate(double degree) {
-        thetaUpdate += Math.toRadians(degree);
+        thetaUpdate = Math.toRadians(degree);
     }
 
-    public void setThetaUpdateZero() {
-        thetaUpdate = 0;
-    }
+    // public void setThetaUpdateZero() {
+    //     thetaUpdate = 0;
+    // }
 
     public void setAccelerateDirection(char d) {
         accelerateDirection = d;

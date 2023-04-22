@@ -16,5 +16,4 @@ abstract class GamePanel extends JPanel{
     public void addGame(Game game) {
         this.game = game;
     }
-
 }

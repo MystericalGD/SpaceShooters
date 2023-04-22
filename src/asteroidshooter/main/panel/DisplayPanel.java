@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import asteroidshooter.controller.AbstractController;
 import asteroidshooter.main.Game;
 
 import java.awt.BasicStroke;
@@ -65,10 +64,8 @@ public class DisplayPanel extends GamePanel {
             if (game.getTimeLeft() == 0) {
                 Color c = Color.GREEN;
                 g2d.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(), alphaPercent*256/100));
-                // System.out.println("END");
                 g.setFont(new Font("Helvetica", Font.BOLD, 50));
                 g.drawString("END", x+22, (int)getSize().getHeight()/2+20);
-                // g.drawString("END", x-50, (int)getSize().getHeight()+25);
             } 
         }
         else {
