@@ -36,10 +36,7 @@ public class DisplayPanel extends GamePanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         renderTimer(g);
-        game.renderBullets(g);
-        game.renderAsteroids(g);
-        game.getPlayer().render(g);
-        game.getBorder().render(g);
+        game.render(g);
     }
 
     @Override

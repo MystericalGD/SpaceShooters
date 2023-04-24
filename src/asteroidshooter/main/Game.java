@@ -104,8 +104,11 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
         updateTime();
     }
 
-    public void render() {
-        gamePanel.repaint();
+    public void render(Graphics g) {
+        renderBullets(g);
+        renderAsteroids(g);
+        player.render(g);
+        border.render(g);
     }
 
     private void checkEnd() {
@@ -266,7 +269,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == renderTimer) {
-            render();
+            gamePanel.repaint();
         } else if (e.getSource() == updateTimer && !isPaused) {
             update();
         } else if (e.getActionCommand() == "Resume") {
