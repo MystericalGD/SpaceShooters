@@ -35,20 +35,9 @@ public class DisplayPanel extends GamePanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        renderTimer(g);
-        game.render(g);
-    }
 
-    @Override
-    public void addGame(Game game) {
-        super.addGame(game);
-        addMouseMotionListener(game.getController());
-        addMouseListener(game.getController());
-        addKeyListener(game.getController());
-    }
-    private void renderTimer(Graphics g) {
+        // draw background timer
         Graphics2D g2d = (Graphics2D)g;
-        
         int size = 150;
         int gap = 10;
         int alphaPercent = 10;
@@ -71,7 +60,16 @@ public class DisplayPanel extends GamePanel {
             g.setFont(new Font("Helvetica", Font.BOLD, 50));
             g.drawString("DIED", x+16, (int)getSize().getHeight()/2+20);
         }
-
         g2d.drawOval(x-gap, y-gap, size+2*gap, size+2*gap); 
+
+        game.render(g);
+    }
+
+    @Override
+    public void addGame(Game game) {
+        super.addGame(game);
+        addMouseMotionListener(game.getController());
+        addMouseListener(game.getController());
+        addKeyListener(game.getController());
     }
 }
