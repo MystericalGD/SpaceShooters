@@ -35,23 +35,7 @@ public class DisplayPanel extends GamePanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        renderTimer(g);
-        game.renderBullets(g);
-        game.renderAsteroids(g);
-        game.getPlayer().render(g);
-        game.getBorder().render(g);
-    }
-
-    @Override
-    public void addGame(Game game) {
-        super.addGame(game);
-        addMouseMotionListener(game.getController());
-        addMouseListener(game.getController());
-        addKeyListener(game.getController());
-    }
-    private void renderTimer(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
-        
         int size = 150;
         int gap = 10;
         int alphaPercent = 10;
@@ -76,5 +60,14 @@ public class DisplayPanel extends GamePanel {
         }
 
         g2d.drawOval(x-gap, y-gap, size+2*gap, size+2*gap); 
+        game.render(g);
+    }
+
+    @Override
+    public void addGame(Game game) {
+        super.addGame(game);
+        addMouseMotionListener(game.getController());
+        addMouseListener(game.getController());
+        addKeyListener(game.getController());
     }
 }
