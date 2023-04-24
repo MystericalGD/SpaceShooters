@@ -270,11 +270,9 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
         } else if (e.getSource() == updateTimer && !isPaused) {
             update();
         } else if (e.getActionCommand() == "Resume") {
-            isPaused = false;
-            menuPanel.changeMenu("play");
+            setPaused(false);
         } else if (e.getActionCommand() == "Pause") {
-            isPaused = true;
-            menuPanel.changeMenu("pause");
+            setPaused(true);
         } else if (e.getActionCommand() == "Restart") {
             restart();
         }
@@ -297,8 +295,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
                 renderTimer = new Timer(1000 / FPS, this);
                 renderTimer.start();
             } else if ((e.getSource() == menuPanel.controllerModeSelectionBox) && controller instanceof KeyController) {
-                System.out.println(e.getItem().toString());
-                ((KeyController) controller).switchMode(e.getItem().toString());
+                ((KeyController) controller).setMode(e.getItem().toString());
             }
         } else if (e.getStateChange() == 2) {
             if (!menuPanel.FPS30BT.isSelected() && !menuPanel.FPS60BT.isSelected()) {
