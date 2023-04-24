@@ -15,6 +15,7 @@ public class KeyController extends AbstractController {
     private double rotateSpeed = 360.0;
 
     public KeyController(String mode) {
+        super();
         if (mode == "Arrow") {
             upBT = KeyEvent.VK_UP;
             downBT = KeyEvent.VK_DOWN;
@@ -26,9 +27,10 @@ public class KeyController extends AbstractController {
             leftBT = KeyEvent.VK_A;
             rightBT = KeyEvent.VK_D;
         }
+        // setMode(mode);
     }
 
-    public void switchMode(String mode) {
+    public void setMode(String mode) {
         if (mode == "Arrow") {
             upBT = KeyEvent.VK_UP;
             downBT = KeyEvent.VK_DOWN;
@@ -41,8 +43,8 @@ public class KeyController extends AbstractController {
             rightBT = KeyEvent.VK_D;
         }
         game.getPlayer().setAccelerateDirection('0');
-        leftBTHeld = true;
-        rightBTHeld = true;
+        leftBTHeld = false;
+        rightBTHeld = false;
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -130,6 +132,6 @@ public class KeyController extends AbstractController {
     }
 
     public void setRotateSpeed(int value) {
-        rotateSpeed = 180 + 60 * value;
+        rotateSpeed = 300 + 60 * value;
     }
 }
