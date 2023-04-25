@@ -52,6 +52,9 @@ public class KeyController extends AbstractController {
     public void mouseDragged(MouseEvent e) {
     }
 
+    public void mousePressed(MouseEvent e) {
+    }
+
     public void mouseClicked(MouseEvent e) {
     }
 
