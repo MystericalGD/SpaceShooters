@@ -27,7 +27,6 @@ public class KeyController extends AbstractController {
             leftBT = KeyEvent.VK_A;
             rightBT = KeyEvent.VK_D;
         }
-        // setMode(mode);
     }
 
     public void setMode(String mode) {
@@ -63,7 +62,7 @@ public class KeyController extends AbstractController {
     }
 
     public void keyPressed(KeyEvent e) {
-        // if (isFocused)
+        if (isFocused)
         {
             if (e.getKeyCode() == upBT) {
                 upBTHeld = true;
