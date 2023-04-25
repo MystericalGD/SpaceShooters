@@ -92,8 +92,9 @@ public class GameMenuPanel extends GamePanel {
         // ItemListener
         FPS30BT.addItemListener(game);
         FPS60BT.addItemListener(game);
-
-        sensitivitySlider.addChangeListener(game);
         controllerModeSelectionBox.addItemListener(game);
+        
+        // ChangeListener
+        sensitivitySlider.addChangeListener(game);
     }
 }
