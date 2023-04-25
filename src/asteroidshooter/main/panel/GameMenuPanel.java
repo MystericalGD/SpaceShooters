@@ -21,7 +21,6 @@ public class GameMenuPanel extends GamePanel {
     public JButton restartBT2 = new JButton("Restart");
     public JButton pauseBT = new JButton("Pause");
     public JButton resumeBT = new JButton("Resume");
-    // public JPanel pausePanel = new JPanel(new GridLayout(1,3));
     public JSlider sensitivitySlider = new JSlider(1,5);
     public JPanel pausePanel = new JPanel();
     public JPanel playPanel = new JPanel();
