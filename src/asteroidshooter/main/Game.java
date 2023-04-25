@@ -31,6 +31,11 @@ import java.util.ConcurrentModificationException;
 import javax.swing.JRadioButton;
 
 public class Game implements ActionListener, ItemListener, ChangeListener {
+    public final int MAX_TIME_SEC = 60;
+    public static String status = "play";
+    public ArrayList<Bullet> BulletsList;
+    public ArrayList<Point> DeadBulletsList;
+    public ArrayList<Asteroid> AsteroidsList;
     private AbstractController controller;
     private Player player;
     private long score;
@@ -40,12 +45,10 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     private int regenAsteroidStatus; // seconds
     private boolean isPaused;
     private boolean isEndChecked;
-    public static String status = "play";
     private Timer updateTimer;
     private Timer renderTimer;
-    public final int MAX_TIME_SEC = 60;
     private int timeSec = 0;
-    private DisplayPanel gamePanel;
+    private DisplayPanel displayPanel;
     private StatusPanel statusPanel;
     private GameMenuPanel menuPanel;
     private GameInfoPanel gameInfoPanel;
@@ -53,13 +56,10 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     private int updateCount;
     private int FPS = 60;
     private Border border;
-    public ArrayList<Bullet> BulletsList;
-    public ArrayList<Point> DeadBulletsList;
-    public ArrayList<Asteroid> AsteroidsList;
 
     Game(DisplayPanel displayPanel, StatusPanel statusPanel, GameMenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
 
-        this.gamePanel = displayPanel;
+        this.displayPanel = displayPanel;
         this.statusPanel = statusPanel;
         this.menuPanel = menuPanel;
         this.gameInfoPanel = gameInfoPanel;
@@ -194,7 +194,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     }
 
     public Dimension getGamePanelSize() {
-        return gamePanel.getSize();
+        return displayPanel.getSize();
     }
 
     // BULLETS
@@ -269,7 +269,7 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == renderTimer) {
-            gamePanel.repaint();
+            displayPanel.repaint();
         } else if (e.getSource() == updateTimer && !isPaused) {
             update();
         } else if (e.getActionCommand() == "Resume") {
