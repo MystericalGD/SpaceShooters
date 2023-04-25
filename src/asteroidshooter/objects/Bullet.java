@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 import asteroidshooter.main.Game;
 
 public class Bullet extends GameObject {
-    private final int MAX_VELOCITY = 1500;
+    private static final int MAX_VELOCITY = 1500;
     private double velocityX;
     private double velocityY;
     private double length = 7;
