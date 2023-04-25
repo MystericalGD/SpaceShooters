@@ -11,13 +11,13 @@ import java.awt.geom.AffineTransform;
 import java.util.Random;
 
 public class Asteroid extends GameObject {
-    private final int MAX_VELOCITY = 150;
-    private final int MIN_VELOCITY = 50;
-    private final double MAX_ANGULAR_SPEED = Math.toRadians(360);
-    private final double MIN_ANGULAR_SPEED = Math.toRadians(100);
-    private final String[] SIZES = new String[] { "small", "big" };
+    private static final int MAX_VELOCITY = 150;
+    private static final int MIN_VELOCITY = 50;
+    private static final double MAX_ANGULAR_SPEED = Math.toRadians(360);
+    private static final double MIN_ANGULAR_SPEED = Math.toRadians(100);
+    private static final String[] SIZES = new String[] { "small", "big" };
     private int lifetime;
-    private int current_lifetime = 0;
+    private int currentLifetime = 0;
     private int velocity;
     private double theta;
     private double rotation;
@@ -88,7 +88,7 @@ public class Asteroid extends GameObject {
     protected void updatePos() {
         x += velocity * Math.cos(theta) / Game.getUPS();
         y += velocity * Math.sin(theta) / Game.getUPS();
-        current_lifetime++;
+        currentLifetime++;
     }
 
     public void update() {
@@ -132,7 +132,7 @@ public class Asteroid extends GameObject {
     }
 
     public boolean isDead() {
-        return (current_lifetime == lifetime);
+        return (currentLifetime == lifetime);
     }
 
     public boolean isDestroyed() {
