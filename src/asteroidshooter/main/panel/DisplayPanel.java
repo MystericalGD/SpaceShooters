@@ -26,12 +26,12 @@ public class DisplayPanel extends GamePanel {
         });
         setDoubleBuffered(true);
     }
-
-    public void setDarkColor(boolean dark) {
-        if (dark) bgColor = new Color(35, 35, 59);
-        else bgColor = Color.WHITE;
-        setBackground(bgColor);
-    }
+    // Future version
+    // public void setDarkColor(boolean dark) {
+    //     if (dark) bgColor = new Color(35, 35, 59);
+    //     else bgColor = Color.WHITE;
+    //     setBackground(bgColor);
+    // }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
