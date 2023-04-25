@@ -2,7 +2,6 @@ package asteroidshooter.objects;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,11 +22,11 @@ public class Border {
     }
 
     public Border(Point upperLeft, int w, int h) {
-        this(upperLeft.x, upperLeft.y, w, h);
+        this((int)upperLeft.x, (int)upperLeft.y, w, h);
     }
 
     public static Border fromCenter(Point center, int w, int h) {
-        return new Border(center.x - w / 2, center.y - h / 2, w, h);
+        return new Border((int)center.x - w / 2, (int)center.y - h / 2, w, h);
     }
 
     public static Border fromCenter(Dimension d, int w, int h) {
