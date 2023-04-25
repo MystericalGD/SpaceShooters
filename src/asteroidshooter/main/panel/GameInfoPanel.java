@@ -29,14 +29,15 @@ public class GameInfoPanel extends GamePanel {
     }
 
     private class HPPanel extends JPanel {
-        HPPanel() {
-            setBackground(Color.WHITE);
-            setPreferredSize(new Dimension(250,40));
-        }
         private int xOffset = 25;
         private int HPBarHeight = 15;
         private int edgeDistance = 3;
 
+        HPPanel() {
+            setBackground(Color.WHITE);
+            setPreferredSize(new Dimension(250,40));
+        }
+        
         protected void paintComponent(Graphics g) {
             try {
                 int midPanelY = (int)(getSize().getHeight()/2);
