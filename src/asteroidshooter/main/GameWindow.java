@@ -14,8 +14,8 @@ import asteroidshooter.main.panel.StatusPanel;
 import asteroidshooter.main.panel.InstructionPanel;
 
 public class GameWindow extends JFrame {
-    private DisplayPanel gamePanel = new DisplayPanel();
-    private StatusPanel infoPanel = new StatusPanel();
+    private DisplayPanel displayPanel = new DisplayPanel();
+    private StatusPanel statusPanel = new StatusPanel();
     private GameMenuPanel menuPanel = new GameMenuPanel();
     private GameInfoPanel gameInfoPanel = new GameInfoPanel();
     private InstructionPanel instructionPanel = new InstructionPanel();
@@ -37,13 +37,13 @@ public class GameWindow extends JFrame {
         southPanel.setPreferredSize(new Dimension(800, 40));
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(gamePanel);
+        mainPanel.add(displayPanel);
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
         add(mainPanel, BorderLayout.CENTER);
         add(eastPanel, BorderLayout.EAST);
         pack();
-        new Game(gamePanel, infoPanel, menuPanel, gameInfoPanel);
-        gamePanel.requestFocusInWindow();
+        new Game(displayPanel, statusPanel, menuPanel, gameInfoPanel);
+        displayPanel.requestFocusInWindow();
     }
 }

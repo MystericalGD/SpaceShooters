@@ -10,16 +10,19 @@ import asteroidshooter.main.Game;
 import asteroidshooter.utils.MathUtils;
 
 public class Player extends GameObject {
-    private final double RELOAD_TIME = 0.25;
-    private long MAX_RELOAD_STATUS;
-    private long reloadStatus;
-    private final double REGEN_BOOST_TIME = 0.75;
-    private final long MAX_REGEN_BOOST_STATUS;
-    private final long MAX_BULLETS_SHOT = 20;
-    private long regenBoostStatus;
     public boolean isReloadDone = true;
     public boolean isBoosted = false;
     public boolean isHit = false;
+    private final int MAX_VELOCITY = 300;
+    private final double RELOAD_TIME = 0.25;
+    private final double REGEN_BOOST_TIME = 0.75;
+    private final int MAX_DEATH_FRAME = 60;
+    private final double ACCELERATION = 1;
+    private long MAX_RELOAD_STATUS;
+    private final long MAX_REGEN_BOOST_STATUS;
+    private final long MAX_BULLETS_SHOT = 20;
+    private long reloadStatus;
+    private long regenBoostStatus;
     private boolean wasHit = false;
     private double velocityX = 0;
     private double velocityY = 0;
@@ -29,14 +32,11 @@ public class Player extends GameObject {
     private boolean triggerShoot = false;
     private boolean triggerBoost = false;
     private char accelerateDirection = '0';
-    private final double ACCELERATION = 1;
-    private final int MAX_VELOCITY = 300;
     private int max_velocity;
     private Color fireColor = Color.GRAY;
     private Color playerColorPrimary = Color.BLACK;
     private Color playerColorSecondary = Color.GRAY;
     private int deathFrame = 0;
-    private final int MAX_DEATH_FRAME = 60;
     private GameObject[] deathPoints = new GameObject[10];
 
     public Player() {
@@ -137,11 +137,11 @@ public class Player extends GameObject {
         }
     }
 
-    public void setTriggerShoot(Boolean bool) {
+    public void setTriggerShoot(boolean bool) {
         triggerShoot = bool;
     }
 
-    public void setTriggerBoost(Boolean bool) {
+    public void setTriggerBoost(boolean bool) {
         triggerBoost = bool;
     }
 
