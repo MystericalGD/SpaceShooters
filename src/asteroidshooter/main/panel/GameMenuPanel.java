@@ -60,6 +60,7 @@ public class GameMenuPanel extends GamePanel {
     }
 
     public void changeMenu(String status) {
+        Game.status=status;
         remove(getComponent(0));
         switch (status) {
             case "play":

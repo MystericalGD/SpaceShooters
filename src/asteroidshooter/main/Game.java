@@ -26,7 +26,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.ConcurrentModificationException;
 
 import javax.swing.JRadioButton;
 
@@ -185,7 +184,10 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     }
 
     public void setFPS(int value) {
+        renderTimer.stop();
         FPS = value;
+        renderTimer = new Timer(1000 / FPS, this);
+        renderTimer.start();
     }
 
     public long getScore() {
@@ -290,17 +292,11 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
             if (e.getItem() == menuPanel.FPS30BT) {
                 menuPanel.FPS30BT.setSelected(true);
                 menuPanel.FPS60BT.setSelected(false);
-                FPS = 30;
-                renderTimer.stop();
-                renderTimer = new Timer(1000 / FPS, this);
-                renderTimer.start();
+                setFPS(30);
             } else if (e.getItem() == menuPanel.FPS60BT) {
                 menuPanel.FPS30BT.setSelected(false);
                 menuPanel.FPS60BT.setSelected(true);
-                FPS = 60;
-                renderTimer.stop();
-                renderTimer = new Timer(1000 / FPS, this);
-                renderTimer.start();
+                setFPS(60);
             } else if ((e.getSource() == menuPanel.controllerModeSelectionBox) && controller instanceof KeyController) {
                 ((KeyController) controller).setMode(e.getItem().toString());
             }
