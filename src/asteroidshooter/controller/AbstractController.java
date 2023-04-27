@@ -1,13 +1,12 @@
 package asteroidshooter.controller;
 
-import javax.swing.event.MouseInputListener;
-
 import asteroidshooter.main.Game;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public abstract class AbstractController implements KeyListener, MouseInputListener {
+public abstract class AbstractController implements KeyListener, MouseListener {
     protected Game game;
     public boolean isFocused = false;
 

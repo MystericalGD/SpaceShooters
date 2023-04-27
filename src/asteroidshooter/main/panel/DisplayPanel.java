@@ -68,7 +68,6 @@ public class DisplayPanel extends GamePanel {
     @Override
     public void addGame(Game game) {
         super.addGame(game);
-        addMouseMotionListener(game.getController());
         addMouseListener(game.getController());
         addKeyListener(game.getController());
     }
