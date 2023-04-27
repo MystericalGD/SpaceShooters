@@ -214,7 +214,8 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
             for (Iterator<Bullet> iterator = BulletsList.iterator(); iterator.hasNext();) {
                 iterator.next().render(g);
             }
-        } catch (ConcurrentModificationException e) {
+        } catch (Exception e) {
+            System.out.println("Error rendering");
         }
     }
 
