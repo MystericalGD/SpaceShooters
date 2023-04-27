@@ -73,7 +73,7 @@ public class Player extends GameObject {
             g2d.setColor(playerColorSecondary);
             g2d.fillOval(-5, -5, 10, 10);
 
-            if (accelerateDirection == 'F') {
+            if (accelerateDirection == 'F' && !game.getPaused()) {
                 g2d.setColor(fireColor);
                 g2d.fillPolygon(
                         new int[] { -10, -15, -13, -17, -13, -15, -10 },

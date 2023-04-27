@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import asteroidshooter.controller.AbstractController;
+import asteroidshooter.controller.KeyController;
 import asteroidshooter.main.panel.GameInfoPanel;
 import asteroidshooter.main.panel.DisplayPanel;
 import asteroidshooter.main.panel.GameMenuPanel;
@@ -43,7 +45,9 @@ public class GameWindow extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
         add(eastPanel, BorderLayout.EAST);
         pack();
-        new Game(displayPanel, statusPanel, menuPanel, gameInfoPanel);
+        AbstractController controller = new KeyController("WASD");
+        addMouseListener(controller);
+        new Game(displayPanel, statusPanel, menuPanel, gameInfoPanel, controller);
         displayPanel.requestFocusInWindow();
     }
 }

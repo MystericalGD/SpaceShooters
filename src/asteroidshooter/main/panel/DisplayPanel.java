@@ -17,14 +17,7 @@ public class DisplayPanel extends GamePanel {
     public DisplayPanel() {
         setPreferredSize(new Dimension(800,600));
         setFocusable(true);
-        
         setBackground(bgColor);
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                requestFocus();
-            }
-        });
-        setDoubleBuffered(true);
     }
     // Future version
     // public void setDarkColor(boolean dark) {
@@ -46,17 +39,17 @@ public class DisplayPanel extends GamePanel {
         g2d.setStroke(new BasicStroke(5));
         g2d.setColor(new Color(0,0,0,alphaPercent*256/100));
         if (!game.getPlayer().getIsDead()) {
-            g2d.fillArc(x, y, size, size,90,game.getUpdateLeft() * 360 /(game.MAX_TIME_SEC * Game.getUPS()));
+            g.fillArc(x, y, size, size,90,game.getUpdateLeft() * 360 /(game.MAX_TIME_SEC * Game.getUPS()));
             if (game.getTimeLeft() == 0) {
                 Color c = Color.GREEN;
-                g2d.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(), alphaPercent*256/100));
+                g.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(), alphaPercent*256/100));
                 g.setFont(new Font("Helvetica", Font.BOLD, 50));
                 g.drawString("END", x+22, (int)getSize().getHeight()/2+20);
             } 
         }
         else {
             Color c = Color.RED;
-            g2d.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),alphaPercent*256/100));
+            g.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),alphaPercent*256/100));
             g.setFont(new Font("Helvetica", Font.BOLD, 50));
             g.drawString("DIED", x+16, (int)getSize().getHeight()/2+20);
         }
@@ -68,7 +61,6 @@ public class DisplayPanel extends GamePanel {
     @Override
     public void addGame(Game game) {
         super.addGame(game);
-        addMouseListener(game.getController());
         addKeyListener(game.getController());
     }
 }

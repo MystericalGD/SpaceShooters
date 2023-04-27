@@ -57,15 +57,18 @@ public class Game implements ActionListener, ItemListener, ChangeListener {
     private int FPS = 60;
     private Border border;
 
-    Game(DisplayPanel displayPanel, StatusPanel statusPanel, GameMenuPanel menuPanel, GameInfoPanel gameInfoPanel) {
+    Game(DisplayPanel displayPanel, StatusPanel statusPanel, GameMenuPanel menuPanel, 
+        GameInfoPanel gameInfoPanel, AbstractController controller) 
+    {
 
         this.displayPanel = displayPanel;
         this.statusPanel = statusPanel;
         this.menuPanel = menuPanel;
         this.gameInfoPanel = gameInfoPanel;
+        this.controller = controller;
 
         border = Border.fromCenter(displayPanel.getSize(), 700, 500);
-        controller = new KeyController("WASD");
+        
 
         controller.addGame(this);
         menuPanel.addGame(this);
