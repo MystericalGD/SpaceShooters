@@ -111,7 +111,7 @@ public class Player extends GameObject {
     }
 
     public void setThetaUpdate(double degree) {
-        thetaUpdate = Math.toRadians(degree);
+        thetaUpdate = degree;
     }
 
     // public void setThetaUpdateZero() {

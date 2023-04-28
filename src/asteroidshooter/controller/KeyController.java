@@ -68,12 +68,12 @@ public class KeyController extends AbstractController {
             if (e.getKeyCode() == leftBT) {
                 leftBTHeld = true;
                 if (rightBTHeld == true) game.getPlayer().setThetaUpdate(0);
-                else game.getPlayer().setThetaUpdate(-Math.toDegrees(Math.toRadians(rotateSpeed)) / Game.getUPS());
+                else game.getPlayer().setThetaUpdate(-Math.toRadians(rotateSpeed) / Game.getUPS());
             }
             if (e.getKeyCode() == rightBT) {
                 rightBTHeld = true;
                 if (leftBTHeld == true) game.getPlayer().setThetaUpdate(0);
-                else game.getPlayer().setThetaUpdate(Math.toDegrees(Math.toRadians(rotateSpeed)) / Game.getUPS());
+                else game.getPlayer().setThetaUpdate(Math.toRadians(rotateSpeed) / Game.getUPS());
             }
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 game.getPlayer().setTriggerShoot(true);
@@ -105,12 +105,12 @@ public class KeyController extends AbstractController {
         if (e.getKeyCode() == leftBT) {
             leftBTHeld = false;
             if (rightBTHeld == false) game.getPlayer().setThetaUpdate(0);
-            else game.getPlayer().setThetaUpdate(Math.toDegrees(Math.toRadians(rotateSpeed)) / Game.getUPS());
+            else game.getPlayer().setThetaUpdate(Math.toRadians(rotateSpeed) / Game.getUPS());
         }
         if (e.getKeyCode() == rightBT) {
             rightBTHeld = false;
             if (leftBTHeld == false) game.getPlayer().setThetaUpdate(0);
-            else game.getPlayer().setThetaUpdate(-Math.toDegrees(Math.toRadians(rotateSpeed)) / Game.getUPS());
+            else game.getPlayer().setThetaUpdate(-Math.toRadians(rotateSpeed) / Game.getUPS());
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             game.getPlayer().setTriggerShoot(false);
