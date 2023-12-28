@@ -2,13 +2,10 @@ package asteroidshooter.main.panel;
 
 import javax.swing.border.TitledBorder;
 import java.awt.Dimension;
-
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-
 public class InstructionPanel extends JPanel {
-    String instructionText =
+    private String instructionText =
     "<html>" +
         "<ul style=\"margin:10;padding:0\">" +
             "<li> Press W or S to move <br>forward/backward</li>" +
@@ -17,28 +14,31 @@ public class InstructionPanel extends JPanel {
             "<li> Press Shift to boost speed</li>" +
         "</ul>" +
     "<html>";
-    JLabel instructionArea = new JLabel(instructionText);
-    String scoreCalcText =
+    private String scoringText =
     "<html>" +
-        "<ul style=\"margin:10;padding:0\">" +
-            "<li>Score is calculated by<br>"+
-            "the points from asteroids<br>"+
-            "destroyed plus the<br>"+
-            "remaining HP times 4. </li>" +
-            "<li>You must survive to<br>update the high score.</li>" +
+    "<ul style=\"margin:10;padding:0\">" +
+    "<li>Score is calculated by<br>"+
+    "the points from asteroids<br>"+
+    "destroyed plus the<br>"+
+    "remaining HP times 4. </li>" +
+    "<li>You must survive to<br>update the high score.</li>" +
     "<html>";
-    JLabel scoreCalcArea = new JLabel(scoreCalcText);
-    public InstructionPanel() {
-        setPreferredSize(new Dimension(230,300));
 
+    public InstructionPanel() {
+        super();
+        setPreferredSize(new Dimension(getWidth(),310));
+        JLabel instructionLabel = new JLabel(instructionText);
+        JLabel scoringLabel = new JLabel(scoringText);
         JPanel p = new JPanel();
-        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        p.setPreferredSize(new Dimension(210,150));
         p.setBorder(new TitledBorder("Instruction"));
-        p.add(instructionArea);
+        p.add(instructionLabel);
         JPanel p2 = new JPanel();
+        p2.setPreferredSize(new Dimension(210,150));
         p2.setBorder(new TitledBorder("Scoring"));
-        p2.add(scoreCalcArea);
-        instructionArea.setBackground(getBackground());
+        p2.add(scoringLabel);
+        System.out.println();
+        instructionLabel.setBackground(getBackground());
         add(p);
         add(p2);
     }
